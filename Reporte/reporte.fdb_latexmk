@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1745902598.80942 "d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex" "reporte.pdf" "reporte" 1745902600.02339 0
+["pdflatex"] 1746050093.59929 "d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex" "reporte.pdf" "reporte" 1746050094.80246 0
   "C:/Users/molap/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1745881176 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/molap/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1737009648 11996599 3a06f88305ce55e4c9c2145bb896848f ""
   "S:/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -101,11 +101,11 @@
   "S:/MiKTeX/tex/latex/tools/verbatim.sty" 1730400552 7532 d2e1111e17bfebb1607d8ffa779705ec ""
   "S:/MiKTeX/tex/latex/tools/xspace.sty" 1730400552 4545 e3f4de576c914e2000f07f69a891c071 ""
   "S:/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex" 1745902598 3385 7d92bcc97385daca9e48c0f131ce67a5 ""
+  "d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex" 1746050094 3531 4646bcc60034b7190327c862f9259982 ""
   "img/gantt.png" 1745882356 53885 ab12943ad7dd15a7688cbdfa31d0a7a6 ""
-  "reporte.aux" 1745902600 1385 cc44a0ab02817086f3f6dde0281ea673 "pdflatex"
-  "reporte.out" 1745902600 1501 81b58d9756323879821ac382705e0464 "pdflatex"
-  "reporte.tex" 1745902598 3385 7d92bcc97385daca9e48c0f131ce67a5 ""
+  "reporte.aux" 1746050096 1385 cc44a0ab02817086f3f6dde0281ea673 "pdflatex"
+  "reporte.out" 1746050096 1501 81b58d9756323879821ac382705e0464 "pdflatex"
+  "reporte.tex" 1746050094 3531 4646bcc60034b7190327c862f9259982 ""
   (generated)
   "reporte.aux"
   "reporte.log"
