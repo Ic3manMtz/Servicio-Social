@@ -1,0 +1,25 @@
+name: Upload PDF to Google Drive
+
+on:
+  push:
+    branches:
+      - main  # Cambia a tu rama principal
+
+jobs:
+  upload-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Upload to Google Drive
+        uses: satackey/action-google-drive@v2.2.1
+        with:
+          # Credenciales
+          credentialJson: ${{ secrets.GOOGLE_CREDENTIALS }}
+          # Archivo a subir
+          localFile: "./tu-archivo.pdf"  # Ruta del PDF
+          # Carpeta destino en Drive
+          parentId: ${{ secrets.DRIVE_FOLDER_ID }}
+          # Opciones
+          deleteExisting: true  # Sobrescribe el archivo si existe
