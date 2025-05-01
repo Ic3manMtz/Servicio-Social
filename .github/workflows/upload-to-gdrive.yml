@@ -3,7 +3,7 @@ name: Upload to Google Drive
 on:
   push:
     branches:
-      - main  # Cambia "main" por la rama que quieras monitorear
+      - main  # Cambia "main" por la rama que desees monitorear
 
 jobs:
   upload_to_drive:
@@ -37,10 +37,13 @@ creds = json.loads(os.environ['GDRIVE_TOKEN'])
 service = build('drive', 'v3', credentials=creds)
 
 # Especificar el archivo que deseas subir
-file_metadata = {'name': 'archivo_a_subir.txt'}  # Cambia el nombre del archivo
+file_metadata = {
+    'name': 'reporte.pdf',  # Cambia el nombre del archivo
+    'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']  # Reemplaza <folderId> con el ID de tu carpeta
+}
 media = MediaFileUpload('reporte/reporte.pdf', resumable=True)
 
-# Subir el archivo
+# Subir el archivo a la carpeta específica
 file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 print(f'Archivo subido con ID: {file.get("id")}')
 " > upload_to_drive.py
