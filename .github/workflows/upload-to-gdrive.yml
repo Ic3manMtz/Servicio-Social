@@ -26,25 +26,27 @@ jobs:
     - name: Upload to Google Drive
       env:
         GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}  
-      run: |  # Línea 31 (indentación correcta)
+      run: |
         echo "from googleapiclient.discovery import build
         from googleapiclient.http import MediaFileUpload
+        from google.oauth2.credentials import Credentials  # Import the correct class
         import json
         import os
-
-        # Configurar el cliente de Google Drive
-        creds = json.loads(os.environ['GDRIVE_TOKEN'])
+    
+        # Configure the Google Drive client
+        creds_dict = json.loads(os.environ['GDRIVE_TOKEN'])
+        creds = Credentials.from_authorized_user_info(creds_dict)  # Convert to Credentials object
         service = build('drive', 'v3', credentials=creds)
-
-        # Especificar el archivo
+    
+        # Specify the file
         file_metadata = {
             'name': 'reporte.pdf',
             'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']
         }
         media = MediaFileUpload('reporte/reporte.pdf', resumable=True)
-
-        # Subir el archivo
+    
+        # Upload the file
         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-        print(f'Archivo subido con ID: {file.get(\"id\")}')  # Escapar comillas
+        print(f'Archivo subido con ID: {file.get(\\"id\\")}')
         " > upload_to_drive.py
         python upload_to_drive.py
