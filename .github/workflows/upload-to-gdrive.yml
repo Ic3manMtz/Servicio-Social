@@ -3,7 +3,7 @@ name: Upload to Google Drive
 on:
   push:
     branches:
-      - main  # Cambia "main" por la rama que desees monitorear
+      - main
 
 jobs:
   upload_to_drive:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
+        python-version: "3.10"  # Versión explícita
 
     - name: Install dependencies
       run: |
@@ -25,26 +25,26 @@ jobs:
 
     - name: Upload to Google Drive
       env:
-        GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}
-      run: |
+        GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}  
+      run: |  # Línea 31 (indentación correcta)
         echo "from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
-import json
-import os
+        from googleapiclient.http import MediaFileUpload
+        import json
+        import os
 
-# Configurar el cliente de Google Drive
-creds = json.loads(os.environ['GDRIVE_TOKEN'])
-service = build('drive', 'v3', credentials=creds)
+        # Configurar el cliente de Google Drive
+        creds = json.loads(os.environ['GDRIVE_TOKEN'])
+        service = build('drive', 'v3', credentials=creds)
 
-# Especificar el archivo que deseas subir
-file_metadata = {
-    'name': 'reporte.pdf',  # Cambia el nombre del archivo
-    'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']  # Reemplaza <folderId> con el ID de tu carpeta
-}
-media = MediaFileUpload('reporte/reporte.pdf', resumable=True)
+        # Especificar el archivo
+        file_metadata = {
+            'name': 'reporte.pdf',
+            'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']
+        }
+        media = MediaFileUpload('reporte/reporte.pdf', resumable=True)
 
-# Subir el archivo a la carpeta específica
-file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-print(f'Archivo subido con ID: {file.get("id")}')
-" > upload_to_drive.py
-        python upload_to_drive.py 
+        # Subir el archivo
+        file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+        print(f'Archivo subido con ID: {file.get(\"id\")}')  # Escapar comillas
+        " > upload_to_drive.py
+        python upload_to_drive.py
