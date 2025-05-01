@@ -43,7 +43,7 @@ jobs:
             'name': 'reporte.pdf',
             'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']
         }
-        media = MediaFileUpload('reporte/reporte.pdf', resumable=True)
+        media = MediaFileUpload('Reporte/reporte.pdf', resumable=True)
     
         # Upload the file
         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
