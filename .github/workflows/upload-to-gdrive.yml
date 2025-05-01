@@ -47,6 +47,6 @@ jobs:
     
         # Upload the file
         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-        print(f'Archivo subido con ID: {file.get(\\"id\\")}')
+        print(f'Archivo subido con ID: {file.get("id")}')
         " > upload_to_drive.py
         python upload_to_drive.py
