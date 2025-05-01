@@ -16,7 +16,7 @@ jobs:
         uses: satackey/action-google-drive@v2
         with:
           # Credenciales
-          google-client-id: ${{ secrets.GOOGLE_CREDENTIALS }}
+          credentialJson: ${{ secrets.GOOGLE_CREDENTIALS }}
           # Archivo a subir
           localFile: "./Reporte/reporte.pdf"  # Ruta del PDF
           # Carpeta destino en Drive
