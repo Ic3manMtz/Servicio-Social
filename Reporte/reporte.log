@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.4)  1 MAY 2025 17:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.11.4)  2 MAY 2025 11:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex"
-(d:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex
+**"e:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex"
+(e:/UAM/Servicio Social/Servicio-Social/Reporte/reporte.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Program Files\MiKTeX\tex/latex/base\report.cls
@@ -423,7 +423,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
  (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<img/gantt.png, id=35, 467.49657pt x 328.22626pt>
+<img/gantt.png, id=59, 467.49657pt x 328.22626pt>
 File: img/gantt.png Graphic file (type png)
 <use img/gantt.png>
 Package pdftex.def Info: img/gantt.png  used on input line 79.
@@ -431,8 +431,8 @@ Package pdftex.def Info: img/gantt.png  used on input line 79.
  [1
 
 {C:/Users/molap/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./img/gantt.png>]
-LaTeX Info: Redefining \. on input line 126.
-LaTeX Info: Redefining \% on input line 126.
+LaTeX Info: Redefining \. on input line 132.
+LaTeX Info: Redefining \% on input line 132.
  [2] (reporte.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
@@ -442,20 +442,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `reporte.out' has not changed.
-(rerunfilecheck)             Checksum: 81B58D9756323879821AC382705E0464;1501.
+(rerunfilecheck)             Checksum: D71ABEBDD01D11A0E1E6B5B6F4351A0F;2423.
  ) 
 Here is how much of TeX's memory you used:
- 14692 strings out of 474485
- 230344 string characters out of 5753549
+ 14704 strings out of 474485
+ 230498 string characters out of 5753549
  1932542 words of memory out of 5000000
- 36785 multiletter control sequences out of 15000+600000
+ 36791 multiletter control sequences out of 15000+600000
  564637 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,7n,79p,593b,526s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
-Output written on reporte.pdf (2 pages, 134702 bytes).
+Output written on reporte.pdf (2 pages, 138368 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 12 named destinations out of 1000 (max. 500000)
- 70 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 102 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 
