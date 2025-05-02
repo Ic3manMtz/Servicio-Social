@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.10"  # Versión explícita
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
@@ -25,39 +25,55 @@ jobs:
 
     - name: Upload to Google Drive
       env:
-        GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}  
+        GDRIVE_TOKEN: ${{ secrets.GDRIVE_TOKEN }}
       run: |
         echo "from googleapiclient.discovery import build
         from googleapiclient.http import MediaFileUpload
-        from google.oauth2.credentials import Credentials  # Import the correct class
+        from google.oauth2.credentials import Credentials
         import json
         import os
-    
-        # Configure the Google Drive client
-        creds_dict = json.loads(os.environ['GDRIVE_TOKEN'])
-        creds = Credentials.from_authorized_user_info(creds_dict)  # Convert to Credentials object
-        service = build('drive', 'v3', credentials=creds)
-    
-        # Specify the file
-        file_metadata = {
-            'name': 'reporte.pdf',
-            'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']
-        }
-        media = MediaFileUpload('Reporte/reporte.pdf', resumable=True)
-    
-        # Upload the file
-        file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-        print(f'Archivo subido con ID: {file.get("id")}')
 
-                # Specify the second file
-        file_metadata_2 = {
-            'name': 'bitacora.md',  # Nombre del segundo archivo en Google Drive
-            'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']  # ID de la misma carpeta o diferente si es necesario
-        }
-        media_2 = MediaFileUpload('bitacora.md', resumable=True)  # Ruta al segundo archivo local
-    
-        # Upload the second file
-        file_2 = service.files().create(body=file_metadata_2, media_body=media_2, fields='id').execute()
-        print(f'Archivo 2 subido con ID: {file_2.get("id")}')
+        def upload_or_update_file(service, file_name, local_path, parent_id):
+            # Buscar archivo existente
+            query = f\"name = '{file_name}' and '{parent_id}' in parents and trashed = false\"
+            results = service.files().list(
+                q=query,
+                spaces='drive',
+                fields='files(id, name)'
+            ).execute()
+            items = results.get('files', [])
+
+            media = MediaFileUpload(local_path, resumable=True)
+            
+            if items:
+                # Actualizar archivo existente
+                file_id = items[0]['id']
+                updated_file = service.files().update(
+                    fileId=file_id,
+                    media_body=media,
+                    fields='id'
+                ).execute()
+                print(f'Archivo actualizado ID: {updated_file.get(\"id\")}')
+            else:
+                # Crear nuevo archivo
+                file_metadata = {'name': file_name, 'parents': [parent_id]}
+                new_file = service.files().create(
+                    body=file_metadata,
+                    media_body=media,
+                    fields='id'
+                ).execute()
+                print(f'Nuevo archivo creado ID: {new_file.get(\"id\")}')
+
+        # Configurar cliente
+        creds_dict = json.loads(os.environ['GDRIVE_TOKEN'])
+        creds = Credentials.from_authorized_user_info(creds_dict)
+        service = build('drive', 'v3', credentials=creds)
+
+        # Carpeta padre en Drive
+        FOLDER_ID = '1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w'
+
+        # Subir/actualizar archivos
+        upload_or_update_file(service, 'reporte.pdf', 'Reporte/reporte.pdf', FOLDER_ID)
+        upload_or_update_file(service, 'bitacora.md', 'bitacora.md', FOLDER_ID)
         " > upload_to_drive.py
         python upload_to_drive.py
