@@ -48,5 +48,16 @@ jobs:
         # Upload the file
         file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
         print(f'Archivo subido con ID: {file.get("id")}')
+
+                # Specify the second file
+        file_metadata_2 = {
+            'name': 'bitacora.md',  # Nombre del segundo archivo en Google Drive
+            'parents': ['1URO8Kkwfo1YF8jQ5jyXPoCAvdEvadI9w']  # ID de la misma carpeta o diferente si es necesario
+        }
+        media_2 = MediaFileUpload('bitacora.md', resumable=True)  # Ruta al segundo archivo local
+    
+        # Upload the second file
+        file_2 = service.files().create(body=file_metadata_2, media_body=media_2, fields='id').execute()
+        print(f'Archivo 2 subido con ID: {file_2.get("id")}')
         " > upload_to_drive.py
         python upload_to_drive.py
