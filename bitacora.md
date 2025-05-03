@@ -8,6 +8,7 @@
   - Resolución: 1080
   - Frame rate: 60fps
   - Comentarios: Video con el dron en movimiento constante a diferentes altitudes
+  - Tiempo de conversión a frames: 
 
 - Video 2 [Ruta](E:\UAM\Servicio Social\Videos\05-02-2025-V2)
   - Duración: 11:00
