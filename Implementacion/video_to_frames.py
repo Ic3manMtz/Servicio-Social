@@ -1,51 +1,74 @@
 import cv2
 import os
-from tqdm import tqdm  # <-- Importar la biblioteca
+import glob
+from tqdm import tqdm
 
 # Obtener la ruta del directorio actual del script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Configuración de rutas
-two_folders_up = os.path.abspath(os.path.join(current_dir, "../../"))  # 2 carpetas arriba
+two_folders_up = os.path.abspath(os.path.join(current_dir, "../../"))
+video_dir = os.path.join(two_folders_up, "Videos")  # Carpeta con videos
 
-video_path = os.path.join(two_folders_up, "Videos", "05-02-2025-V1.mp4")  # <-- Ajusta nombres
+# Verificar si existe la carpeta de videos
+if not os.path.exists(video_dir):
+    raise FileNotFoundError(f"⚠️ Carpeta de videos no encontrada: {video_dir}")
 
-# Verificar si existe el video
-if not os.path.exists(video_path):
-    raise FileNotFoundError(f"⚠️ Archivo no encontrado: {video_path}")
-
-# Crear carpeta de salida
+# Crear carpeta base para frames
 output_folder = os.path.join(current_dir, "frames/")
 os.makedirs(output_folder, exist_ok=True)
 
-# Extraer frames
-cap = cv2.VideoCapture(video_path)
+# Encontrar todos los archivos MP4 en la carpeta de videos
+video_files = glob.glob(os.path.join(video_dir, "*.mp4"))
 
-# Verificar si el video se abrió correctamente
-if not cap.isOpened():
-    raise Exception("Error al abrir el video")
+if not video_files:
+    print("⚠️ No se encontraron videos MP4 en la carpeta")
+    exit()
 
-# Obtener el total de frames del video
-total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-frame_count = 0
-sampling_interval = 4 # 60 FPS / FPS objetivo =  sampling_interval
-'''
-Alta precisión  30-15 FPS   2-4 frames
-Balanceado      15-10 FPS   4-6 frames
-Liviano         10-2 FPS    6-12 frames
-'''
+for video_path in video_files:
+    # Crear subcarpeta para el video actual
+    video_name = os.path.splitext(os.path.basename(video_path))[0]
+    video_output_folder = os.path.join(output_folder, video_name)
+    os.makedirs(video_output_folder, exist_ok=True)
 
-# Configurar barra de progreso
-with tqdm(total=total_frames, desc="Extrayendo frames", unit="frame") as pbar:
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        # Guardar frame cada 0.5 segundos
-        if frame_count % 15 == 0:  # 30 FPS -> 15 frames = 0.5 segundos
-            cv2.imwrite(f"{output_folder}frame_{frame_count:04d}.jpg", frame)
-        frame_count += 1
-        pbar.update(1)  # Actualizar barra
+    # Inicializar captura de video
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        print(f"⚠️ Error al abrir video: {video_path}, saltando...")
+        continue
 
-cap.release()
-print(f"\n✅ {frame_count} frames extraídos en {output_folder}")
+    # Configurar parámetros de extracción
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    frame_count = 0
+    sampling_rate = 30 
+
+    '''
+    El objetivo es calcular 1 frame cada 0.5 segundos ya que es un buen balance entre densidad y eficiencia
+    Por lo tanto -> 60fps * 0.5 = 30 sampling_rate
+    '''
+
+    # Procesar con barra de progreso
+    with tqdm(
+        total=total_frames, 
+        desc=f"Extrayendo {video_name[:15]}...", 
+        unit="frame"
+    ) as pbar:
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            
+            if frame_count % sampling_rate == 0:
+                frame_file = os.path.join(
+                    video_output_folder, 
+                    f"frame_{frame_count:06d}.jpg"
+                )
+                cv2.imwrite(frame_file, frame)
+            
+            frame_count += 1
+            pbar.update(1)
+
+    cap.release()
+    print(f"✅ {frame_count} frames extraídos en: {video_output_folder}")
+
+print("\nProceso completado para todos los videos!")
