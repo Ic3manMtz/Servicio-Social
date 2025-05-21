@@ -11,5 +11,6 @@
         - Usar las coordenadas de las bounding boxes de personas detectadas.
         - Calcular la proximidad entre ellas (ej: distancia entre centros).
         - Aplicar un algoritmo de clustering para definir grupos.
-
+    + Análisis de resultados y generación de reportes
+    + Reconstrucción del video procesado
     
