@@ -8,27 +8,30 @@ class VideoAnalyzer:
         self.environment_configured = False
     
     def main_menu(self):
+        menu_options = [
+            ("1", "Configuración del entorno"),
+            ("2", "Seleccionar carpeta de videos"),
+            ("3", "Seleccionar carpeta de salida"),
+            ("4", f"Convertir videos a frames   (Videos convertidos encontrados: {self.count_directories()})"),
+            ("5", "Seleccionar modelo de análisis"),
+            ("6", "Salir")
+        ]
+
         while True:
             print("\n" + "="*40)
             print(" " * 10 + "ANÁLISIS DE VIDEOS".center(20))
             print("="*40 + "\n")
             
-            opciones = [
-                ("1", "Configuración del entorno"),
-                ("2", "Seleccionar carpeta de videos"),
-                ("3", "Seleccionar carpeta de salida"),
-                ("4", f"Convertir videos a frames   (Viceos convertidos encontrados: {self.count_directories()})"),
-                ("5", "Seleccionar modelo de análisis"),
-                ("6", "Salir")
-            ]
-            
-            for num, texto in opciones:
-                print(f" {num}┃ {texto}")
+            for num, text in menu_options:
+                print(f" {num}┃ {text}")
             
             print("\n" + "-"*40)
             choice = input(" ➤ Seleccione una opción: ")
 
             if choice == "1":
+                if self.environment_configured:
+                    print("\n\tEl entorno ya está configurado.")
+                    continue
                 self.configure_environment()
                 self.environment_configured = True
             elif choice == "2":
