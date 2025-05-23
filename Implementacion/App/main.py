@@ -5,6 +5,7 @@ class VideoAnalyzer:
     def __init__(self):
         self.video_folder = None
         self.output_folder = os.getcwd()  # Ruta actual por defecto
+        self.environment_configured = False
     
     def main_menu(self):
         while True:
@@ -13,11 +14,12 @@ class VideoAnalyzer:
             print("="*40 + "\n")
             
             opciones = [
-                ("1", "Seleccionar carpeta de videos"),
-                ("2", "Seleccionar carpeta de salida"),
-                ("3", f"Convertir videos a frames   (Viceos convertidos encontrados: {self.count_directories()})"),
-                ("4", "Analizar frames"),
-                ("5", "Salir")
+                ("1", "Configuración del entorno"),
+                ("2", "Seleccionar carpeta de videos"),
+                ("3", "Seleccionar carpeta de salida"),
+                ("4", f"Convertir videos a frames   (Viceos convertidos encontrados: {self.count_directories()})"),
+                ("5", "Seleccionar modelo de análisis"),
+                ("6", "Salir")
             ]
             
             for num, texto in opciones:
@@ -27,19 +29,29 @@ class VideoAnalyzer:
             choice = input(" ➤ Seleccione una opción: ")
 
             if choice == "1":
-                self.select_video_folder()
+                self.configure_environment()
+                self.environment_configured = True
             elif choice == "2":
-                self.select_output_folder()
+                self.select_video_folder()
             elif choice == "3":
-                self.validate_paths()
+                self.select_output_folder()
             elif choice == "4":
-                self.analyze_frames()
+                self.validate_paths()
             elif choice == "5":
+                self.model_selection()
+            elif choice == "6":
                 print("Saliendo del programa...")
                 break
             else:
                 print("Opción inválida. Intente de nuevo.")
-        
+
+    def configure_environment(self):    
+        print("\nConfigurando el entorno...")
+        subprocess.run([
+            "python",
+            "configuration.py"
+        ])
+
     def select_video_folder(self):
         video_folder = input("Ingresa la ruta de la carpeta con los videos: ")
         if os.path.exists(video_folder):
@@ -88,10 +100,11 @@ class VideoAnalyzer:
             count += len(dirs)
         return count
 
-    def analyze_frames(self):
-        """Analiza los frames extraídos"""
-        print("Analizando frames...")
-        # Aquí iría la lógica de análisis
+    def model_selection(self):
+        print("\nSeleccionando modelo de análisis...")
+        # Aquí iría la lógica para seleccionar el modelo de análisis
+        # YOLOv8x
+        # 
 
 if __name__ == "__main__":
     analyzer = VideoAnalyzer()
