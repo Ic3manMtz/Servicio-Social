@@ -1,5 +1,5 @@
 from time import sleep
-
+import os
 
 class Menu:
     def __init__(self):
@@ -77,3 +77,35 @@ class Menu:
 
         print("\n" + "-"*40)
         return input(" ➤ Seleccione una opción: ")
+    
+    def display_frame_folders(self, frames_path):
+        """Muestra las carpetas de frames convertidos"""
+        print("\n" + "="*40)
+        print(" " * 5 + "CARPETAS DE FRAMES CONVERTIDOS".center(20))
+        print("="*40 + "\n")
+        
+        if os.path.exists(frames_path):
+            dir_names = []
+            for _, dirs, _ in os.walk(frames_path):
+                dir_names = dirs
+                break  # Solo queremos el primer nivel de carpetas
+
+            if not dir_names:
+                print("No se encontraron carpetas de frames.")
+                return []
+
+            print("Seleccione las carpetas que desea usar (separe los números con comas):")
+            for idx, dir_name in enumerate(dir_names, 1):
+                print(f"  {idx}. {dir_name}")
+
+            seleccion = input("\nIngrese los números de las carpetas, separados por comas (Enter para seleccionar todas): ").strip()
+            if not seleccion:
+                # Si el usuario presiona Enter, selecciona todas las carpetas
+                seleccionados = dir_names
+            else:
+                indices = [int(i.strip()) for i in seleccion.split(",") if i.strip().isdigit()]
+                seleccionados = [dir_names[i-1] for i in indices if 1 <= i <= len(dir_names)]
+            return seleccionados
+        
+        print("\n" + "-"*40)
+        input("Presione Enter para continuar...")

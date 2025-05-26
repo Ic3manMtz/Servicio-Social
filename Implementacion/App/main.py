@@ -99,7 +99,8 @@ class Main:
     def handle_detection_and_tracking(self):
         """Maneja la detección de objetos y seguimiento"""
         print("\nDetección de objetos y seguimiento...")
-        self.video_functions.detect_and_track_objects()
+        selection = self.menu.display_frame_folders(self.video_functions.output_folder+"/frames")
+        self.video_functions.detect_and_track_objects(selection)
 
     def handle_clustering(self):
         """Maneja la clusterización de imágenes"""

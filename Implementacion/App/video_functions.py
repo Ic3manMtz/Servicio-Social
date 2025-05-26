@@ -3,7 +3,7 @@ import os
 
 class VideoFunctions:
     def __init__(self):
-        self.video_folder = None
+        self.video_folder = "/home/jorge-mtz/Documentos/Servicio-Social/Videos"
         self.output_folder = os.getcwd()
         self.environment_configured = False
     
@@ -54,7 +54,7 @@ class VideoFunctions:
         """Verifica que las rutas necesarias estén configuradas"""
         return self.video_folder is not None and self.output_folder is not None
     
-    def detect_and_track_objects(self):
+    def detect_and_track_objects(self, directories_selected):
         """Llama al script de detección y seguimiento de objetos"""
         if not self.validate_paths():
             print("Por favor, configure las rutas antes de continuar.")
@@ -64,6 +64,7 @@ class VideoFunctions:
             "python", 
             "detection_tracking.py", 
             "--input_dir", self.output_folder+"/frames", 
+            "--folders", *directories_selected,
             "--output_folder", self.output_folder
         ])
     
