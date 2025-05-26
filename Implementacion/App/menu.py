@@ -15,7 +15,7 @@ class Menu:
             ("2", "Clusterización de imágenes"),
             ("3", "Estadísticas de imágenes"),
             ("4", "Viusualización de resultados"),
-            ("5", "Relizar análisis completo")
+            ("5", "Relizar análisis completo"),
             ("6", "Volver al menú principal")
         ]
 

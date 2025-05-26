@@ -6,19 +6,19 @@ from time import sleep
 try:
     from tqdm import tqdm
 except ImportError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "tqdm"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--break-system-packages", "tqdm"])
     from tqdm import tqdm
 
 def check_package_installed(package_name):
     """Verifica si un paquete está instalado"""
-    spec = importlib.util.find_spec(package_name)
+    spec = importlib.util.find_spec(package_name.replace("-", "_"))  # Maneja guiones en nombres de paquetes
     return spec is not None
 
 def install_packages():
     packages = [
         ["torch", "torchvision", "opencv-python", "numpy", "pandas", "scikit-learn", "matplotlib", "seaborn"],
         ["ultralytics"],
-        ["deep-sort-realtime"],
+        ["deep-sort-realtime"], 
         ["ffmpeg-python"]
     ]
 
@@ -40,7 +40,7 @@ def install_packages():
                 continue
             try:
                 subprocess.check_call([
-                    sys.executable, "-m", "pip", "install", *to_install],
+                    sys.executable, "-m", "pip", "install", "--break-system-packages", *to_install],
                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except subprocess.CalledProcessError:
                 pass

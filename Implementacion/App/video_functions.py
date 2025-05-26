@@ -54,3 +54,16 @@ class VideoFunctions:
         """Verifica que las rutas necesarias estén configuradas"""
         return self.video_folder is not None and self.output_folder is not None
     
+    def detect_and_track_objects(self):
+        """Llama al script de detección y seguimiento de objetos"""
+        if not self.validate_paths():
+            print("Por favor, configure las rutas antes de continuar.")
+            return
+        print("\nIniciando detección y seguimiento de objetos...")
+        subprocess.run([
+            "python", 
+            "detection_tracking.py", 
+            "--input_dir", self.output_folder+"/frames", 
+            "--output_folder", self.output_folder
+        ])
+    

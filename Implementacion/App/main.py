@@ -80,19 +80,47 @@ class Main:
             choice = self.menu.display_pipeline_selection()
 
             if choice == "1":
-                print("\nDetection and tracking...")
+                self.handle_detection_and_tracking()
             elif choice == "2":
-                print("\nClustering...")
+                print("\nClusterización de imágenes...")
             elif choice == "3":
-                print("\nStatistics...")
-            
-                
+                print("\nEstadísticas de imágenes...")
+            elif choice == "4":
+                print("\nVisualización de resultados...")
+            elif choice == "5":
+                print("\nRelizar análisis completo...")
             elif choice == "6":
-                print("Regresando al menú principal...")
+                print("\nRegresando al menú principal...")
                 break
             else:
                 print("Opción inválida. Regresando al menú principal.")
                 
+
+    def handle_detection_and_tracking(self):
+        """Maneja la detección de objetos y seguimiento"""
+        print("\nDetección de objetos y seguimiento...")
+        self.video_functions.detect_and_track_objects()
+
+    def handle_clustering(self):
+        """Maneja la clusterización de imágenes"""
+        print("\nClusterización de imágenes...")
+        # Aquí se implementaría la lógica para la clusterización
+
+    def handle_statistics(self):
+        """Maneja las estadísticas de imágenes"""
+        print("\nEstadísticas de imágenes...")
+        # Aquí se implementaría la lógica para las estadísticas
+
+    def handle_visualization(self):
+        """Maneja la visualización de resultados"""
+        print("\nVisualización de resultados...")
+        # Aquí se implementaría la lógica para la visualización
+
+    def handle_complete_analysis(self):
+        """Maneja el análisis completo"""
+        print("\nRelizar análisis completo...")
+        # Aquí se implementaría la lógica para el análisis completo
+
 
 if __name__ == "__main__":
     app = Main()
