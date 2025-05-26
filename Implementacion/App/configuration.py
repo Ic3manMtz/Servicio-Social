@@ -1,7 +1,13 @@
 import subprocess
 import sys
-import os
 import importlib.util
+from time import sleep
+
+try:
+    from tqdm import tqdm
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "tqdm"])
+    from tqdm import tqdm
 
 def check_package_installed(package_name):
     """Verifica si un paquete está instalado"""
@@ -9,7 +15,6 @@ def check_package_installed(package_name):
     return spec is not None
 
 def install_packages():
-    # Lista de paquetes a instalar con sus respectivos comandos pip
     packages = [
         ["torch", "torchvision", "opencv-python", "numpy", "pandas", "scikit-learn", "matplotlib", "seaborn"],
         ["ultralytics"],
@@ -17,48 +22,31 @@ def install_packages():
         ["ffmpeg-python"]
     ]
 
-    # Aplanar la lista de paquetes para verificación
     all_packages = [pkg for group in packages for pkg in group]
-    
-    # Verificar paquetes ya instalados
-    installed = []
     missing = []
-    
+
     for pkg in all_packages:
-        if check_package_installed(pkg):
-            installed.append(pkg)
-        else:
+        if not check_package_installed(pkg):
             missing.append(pkg)
-    
-    # Mostrar estado de los paquetes
-    if installed:
-        print("✅ Paquetes ya instalados:")
-        print(", ".join(installed))
-        print()
-    
+
     if not missing:
-        print("✅ Todos los paquetes requeridos ya están instalados!")
         return
-    
-    print("🔍 Paquetes faltantes:")
-    print(", ".join(missing))
-    print("\nInstalando paquetes faltantes...\n")
-    
-    # Instalar solo los grupos que contengan paquetes faltantes
-    for package_group in packages:
-        # Filtrar solo los paquetes faltantes en este grupo
-        to_install = [pkg for pkg in package_group if pkg in missing]
-        
-        if not to_install:
-            continue
-            
-        try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", *to_install])
-            print(f"✓ Paquetes instalados exitosamente: {', '.join(to_install)}")
-        except subprocess.CalledProcessError as e:
-            print(f"✗ Error al instalar los paquetes {to_install}: {e}")
+
+    total_to_install = sum(1 for group in packages for pkg in group if pkg in missing)
+    with tqdm(total=total_to_install, desc="Instalando paquetes", ncols=80) as pbar:
+        for package_group in packages:
+            to_install = [pkg for pkg in package_group if pkg in missing]
+            if not to_install:
+                continue
+            try:
+                subprocess.check_call([
+                    sys.executable, "-m", "pip", "install", *to_install],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            except subprocess.CalledProcessError:
+                pass
+            pbar.update(len(to_install))
 
 if __name__ == "__main__":
     install_packages()
-    os.system('cls' if os.name == 'nt' else 'clear')
+    sleep(0.5)
     print("\n✅ Proceso completado!")

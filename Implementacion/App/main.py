@@ -1,114 +1,99 @@
-import subprocess
-import os
+from menu import Menu
+from video_functions import VideoFunctions
 
-class VideoAnalyzer:
+class Main:
     def __init__(self):
-        self.video_folder = None
-        self.output_folder = os.getcwd()  # Ruta actual por defecto
-        self.environment_configured = False
+        self.menu = Menu()
+        self.video_functions = VideoFunctions()
     
-    def main_menu(self):
-        menu_options = [
-            ("1", "Configuración del entorno"),
-            ("2", "Seleccionar carpeta de videos"),
-            ("3", "Seleccionar carpeta de salida"),
-            ("4", f"Convertir videos a frames   (Videos convertidos encontrados: {self.count_directories()})"),
-            ("5", "Seleccionar modelo de análisis"),
-            ("6", "Salir")
-        ]
-
+    def run(self):
+        """Inicia el programa y muestra el menú principal"""
+        if(self.menu.display_welcome()):
+            self.handle_environment_config()
+        """Método principal que ejecuta el programa"""
         while True:
-            print("\n" + "="*40)
-            print(" " * 10 + "ANÁLISIS DE VIDEOS".center(20))
-            print("="*40 + "\n")
+            # Obtener conteo de directorios para mostrar en el menú
+            converted_count = self.video_functions.count_converted_directories()
             
-            for num, text in menu_options:
-                print(f" {num}┃ {text}")
+            # Mostrar menú y obtener selección
+            choice = self.menu.display_main_menu(converted_count)
             
-            print("\n" + "-"*40)
-            choice = input(" ➤ Seleccione una opción: ")
-
+            # Manejar selección del usuario
             if choice == "1":
-                if self.environment_configured:
-                    print("\n\tEl entorno ya está configurado.")
-                    continue
-                self.configure_environment()
-                self.environment_configured = True
+                self.handle_video_folder_selection()
             elif choice == "2":
-                self.select_video_folder()
+                self.handle_output_folder_selection()
             elif choice == "3":
-                self.select_output_folder()
+                self.handle_video_convertion()
             elif choice == "4":
-                self.validate_paths()
+                self.handle_pipeline()
             elif choice == "5":
-                self.model_selection()
-            elif choice == "6":
                 print("Saliendo del programa...")
                 break
             else:
                 print("Opción inválida. Intente de nuevo.")
-
-    def configure_environment(self):    
-        print("\nConfigurando el entorno...")
-        subprocess.run([
-            "python",
-            "configuration.py"
-        ])
-
-    def select_video_folder(self):
-        video_folder = input("Ingresa la ruta de la carpeta con los videos: ")
-        if os.path.exists(video_folder):
-            self.video_folder = video_folder
-            print(f"Ruta seleccionada: {self.video_folder}")
+    
+    def handle_environment_config(self):
+        """Maneja la configuración del entorno"""
+        if self.video_functions.environment_configured:
+            print("\n\tEl entorno ya está configurado.")
+            return
+        self.video_functions.configure_environment()
+    
+    def handle_video_folder_selection(self):
+        """Maneja la selección de la carpeta de videos"""
+        path = self.menu.get_folder_input("\nIngresa la ruta de la carpeta con los videos")
+        if self.video_functions.set_video_folder(path):
+            print(f"\n\tRuta seleccionada: {self.video_functions.video_folder}")
         else:
             print("La ruta especificada no existe. Inténtelo de nuevo.")
-            self.video_folder = None
     
-    def select_output_folder(self):
-        output_folder = input("Ingresa la ruta para guardar resultados (Enter para usar actual): ")
-        if output_folder:
-            if os.path.exists(output_folder):
-                self.output_folder = output_folder
-                print(f"Ruta de salida seleccionada: {self.output_folder}")
-            else:
-                print("La ruta especificada no existe. Usando ruta actual.")
+    def handle_output_folder_selection(self):
+        """Maneja la selección de la carpeta de salida"""
+        path = self.menu.get_folder_input(
+            "\nIngresa la ruta para guardar resultados", 
+            self.video_functions.output_folder
+        )
+        if self.video_functions.set_output_folder(path):
+            print(f"\n\tRuta de salida seleccionada: {self.video_functions.output_folder}")
         else:
-            print(f"Usando ruta actual: {self.output_folder}")
+            print("La ruta especificada no existe. Usando ruta actual.")
     
-    def validate_paths(self):
-        if self.video_folder and self.output_folder:
-            print(f"\nCarpeta de videos: {self.video_folder}")
-            print(f"Carpeta de salida: {self.output_folder}")
-            confirm = input("¿Son correctas estas rutas? (s/n): ").lower()
-            if confirm == 's':
-                self.process_video()
-            else:
-                print("Por favor, seleccione las rutas correctas.")
-        else:
+    def handle_video_convertion(self):
+        """Maneja la conversión de videos a frames"""
+        if not self.video_functions.validate_paths():
             print("Debe seleccionar ambas rutas antes de procesar.")
-    
-    def process_video(self):
-        print("\nProcesando video...")
-        subprocess.run([
-            "python", 
-            "video_to_frames_C.py", 
-            "--video_dir", self.video_folder, 
-            "--output_folder", self.output_folder
-        ])
-    
-    def count_directories(self):
-        frames_path = os.path.join(self.output_folder, "frames")
-        count = 0
-        for _, dirs, _ in os.walk(frames_path):
-            count += len(dirs)
-        return count
+            return
+        
+        confirm = self.menu.display_confirmation(
+            self.video_functions.video_folder,
+            self.video_functions.output_folder
+        )
+        
+        if confirm == 's':
+            self.video_functions.process_video()
 
-    def model_selection(self):
-        print("\nSeleccionando modelo de análisis...")
-        # Aquí iría la lógica para seleccionar el modelo de análisis
-        # YOLOv8x
-        # 
+    def handle_pipeline(self):
+        """Maneja la selección del pipeline de análisis"""
+
+        while True:
+            choice = self.menu.display_pipeline_selection()
+
+            if choice == "1":
+                print("\nDetection and tracking...")
+            elif choice == "2":
+                print("\nClustering...")
+            elif choice == "3":
+                print("\nStatistics...")
+            
+                
+            elif choice == "6":
+                print("Regresando al menú principal...")
+                break
+            else:
+                print("Opción inválida. Regresando al menú principal.")
+                
 
 if __name__ == "__main__":
-    analyzer = VideoAnalyzer()
-    analyzer.main_menu()
+    app = Main()
+    app.run()
