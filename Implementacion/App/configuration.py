@@ -20,7 +20,8 @@ def install_packages():
         ["ultralytics"],
         ["deep-sort-realtime"], 
         ["ffmpeg-python"],
-        ["sqlalchemy", "psycopg2-binary"]
+        ["sqlalchemy", "psycopg2-binary"],
+        ["python-dotenv"]
     ]
 
     all_packages = [pkg for group in packages for pkg in group]
