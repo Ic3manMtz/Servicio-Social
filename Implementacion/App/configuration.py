@@ -19,7 +19,8 @@ def install_packages():
         ["torch", "torchvision", "opencv-python", "numpy", "pandas", "scikit-learn", "matplotlib", "seaborn"],
         ["ultralytics"],
         ["deep-sort-realtime"], 
-        ["ffmpeg-python"]
+        ["ffmpeg-python"],
+        ["sqlalchemy", "psycopg2-binary"]
     ]
 
     all_packages = [pkg for group in packages for pkg in group]

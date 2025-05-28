@@ -5,34 +5,12 @@ import argparse
 from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import concurrent.futures
-from tqdm import tqdm
-import warnings
-from contextlib import redirect_stdout, redirect_stderr
-import io
-
-# Configuración global para silenciar advertencias
-warnings.filterwarnings("ignore")
-
-class SilentOutput:
-    """Context manager para silenciar completamente la salida"""
-    def __enter__(self):
-        self._original_stdout = sys.stdout
-        self._original_stderr = sys.stderr
-        sys.stdout = io.StringIO()
-        sys.stderr = io.StringIO()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        sys.stdout = self._original_stdout
-        sys.stderr = self._original_stderr
 
 def process_video(video_dir, input_base_dir, output_csv):
     try:
-        # Silenciamos completamente la carga del modelo
-        with SilentOutput():
-            model = YOLO("yolov8n.pt")
-            model.verbose = False
-            tracker = DeepSort(max_age=30)
+        model = YOLO("yolov8n.pt")
+        model.verbose = False  # Desactiva la salida del modelo
+        tracker = DeepSort(max_age=30)
         
         frame_dir = os.path.join(input_base_dir, video_dir)
         if not os.path.isdir(frame_dir):
@@ -47,10 +25,7 @@ def process_video(video_dir, input_base_dir, output_csv):
             writer = csv.writer(f)
             writer.writerow(["video", "frame", "track_id", "x1", "y1", "x2", "y2"])
 
-        progress_bar = tqdm(frames, desc=f"{video_dir[:15]:<15}", leave=False, 
-                          bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}')
-        
-        for frame_name in progress_bar:
+        for frame_name in frames:
             frame_path = os.path.join(frame_dir, frame_name)
             if not os.path.exists(frame_path):
                 continue
@@ -64,10 +39,7 @@ def process_video(video_dir, input_base_dir, output_csv):
             except (IndexError, ValueError):
                 continue
 
-            # Silenciamos completamente la inferencia del modelo
-            with SilentOutput():
-                results = model(frame, classes=[0], conf=0.5, verbose=False)
-                
+            results = model(frame, classes=[0], conf=0.5)
             detections = []
             for box in results[0].boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
@@ -85,7 +57,6 @@ def process_video(video_dir, input_base_dir, output_csv):
                     x1, y1, x2, y2 = track.to_ltrb()
                     writer.writerow([video_dir, frame_num, track_id, x1, y1, x2, y2])
         
-        progress_bar.close()
         return temp_csv
 
     except Exception:
@@ -93,6 +64,8 @@ def process_video(video_dir, input_base_dir, output_csv):
 
 def main(input_base_dir, folders, output_folder):
     try:
+        print("Iniciando procesamiento...")
+        
         os.makedirs(os.path.join(output_folder, "results"), exist_ok=True)
         output_csv = os.path.join(output_folder, "results", "tracking_results.csv")
         
@@ -100,9 +73,6 @@ def main(input_base_dir, folders, output_folder):
             writer = csv.writer(f)
             writer.writerow(["video", "frame", "track_id", "x1", "y1", "x2", "y2"])
 
-        main_progress = tqdm(total=len(folders), desc="Progreso general", 
-                           bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [carpetas]')
-        
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = []
             for video_dir in folders:
@@ -122,17 +92,13 @@ def main(input_base_dir, folders, output_folder):
                         os.remove(temp_csv)
                     except Exception:
                         pass
-                main_progress.update(1)
 
-        main_progress.close()
-        print("\nProcesamiento completado")
+        print("Procesamiento completado exitosamente")
 
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"Error durante el procesamiento: {str(e)}")
 
 if __name__ == "__main__":
-    import sys  # Necesario para SilentOutput
-    
     parser = argparse.ArgumentParser(description="Detección y seguimiento en frames.")
     parser.add_argument("--input_dir", type=str, required=True, 
                        help="Directorio base con subcarpetas de frames")

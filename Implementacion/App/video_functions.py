@@ -62,7 +62,7 @@ class VideoFunctions:
         print("\nIniciando detección y seguimiento de objetos...")
         subprocess.run([
             "python", 
-            "detection_tracking.py", 
+            "Pipeline/detection_tracking.py", 
             "--input_dir", self.output_folder+"/frames", 
             "--folders", *directories_selected,
             "--output_folder", self.output_folder

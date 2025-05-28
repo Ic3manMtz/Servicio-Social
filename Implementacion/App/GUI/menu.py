@@ -44,7 +44,7 @@ class Menu:
         # Actualizar la opción 4 con el contador si está disponible
         options = self.options.copy()
         if converted_count is not None:
-            options[2] = (options[2][0], f"{options[2][1]}   (Videos convertidos encontrados: {converted_count})")
+            options[2] = (options[2][0], f"{options[2][1]} (Videos convertidos encontrados: {converted_count})")
         
         for num, text in options:
             print(f" {num}┃ {text}")

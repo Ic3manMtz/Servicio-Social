@@ -1,4 +1,4 @@
-from menu import Menu
+from GUI.menu import Menu
 from video_functions import VideoFunctions
 
 class Main:
