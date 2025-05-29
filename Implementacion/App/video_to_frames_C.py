@@ -4,8 +4,15 @@ import glob
 from tqdm import tqdm
 import threading
 import argparse
+from sqlalchemy import or_
+from database.database import SessionLocal
+from database.crud.video_crud import VideoCRUD
 
-def process_video(video_path, output_folder, position):
+def get_video_size(video_path):
+    """Obtiene el tamaño del archivo de video en megabytes"""
+    return os.path.getsize(video_path) / (1024 * 1024)  # Convertir a MB
+
+def process_video(video_path, output_folder, position, lock):
     video_name = os.path.splitext(os.path.basename(video_path))[0]
     video_output_folder = os.path.join(output_folder, video_name)
     os.makedirs(video_output_folder, exist_ok=True)
@@ -15,43 +22,63 @@ def process_video(video_path, output_folder, position):
         print(f"⚠️ Error al abrir video: {video_path}, saltando...")
         return
 
+    # Obtener metadatos del video
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    duration = total_frames / fps if fps > 0 else 0
+    video_size = get_video_size(video_path)
+    
     frame_count = 0
     sampling_rate = 30
+    saved_frames = 0
 
-    '''
-    El objetivo es calcular 1 frame cada 0.5 segundos ya que es un buen balance entre densidad y eficiencia
-    Por lo tanto -> 60fps * 0.5 = 30 sampling_rate
-    '''
-
-    with tqdm(
-        total=total_frames,
-        desc=f"Extrayendo {video_name[:15]}...",
-        unit="frame",
-        position=position,  # Posición única para cada barra
-        leave=False  # Elimina las barras al finalizar
-    ) as pbar:
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-            
-            if frame_count % sampling_rate == 0:
-                frame_file = os.path.join(
-                    video_output_folder, 
-                    f"frame_{frame_count:06d}.jpg"
+    db = SessionLocal()
+    video_crud = VideoCRUD(db)
+    try:
+        # Usar bloqueo para evitar condiciones de carrera
+        with lock:
+            # Verificar si el video ya existe
+            video_record = video_crud.get_video_by_title(video_name)
+            if not video_record:
+                # Si no existe, crear el registro
+                video_record = video_crud.create_video(
+                    title=video_name,
+                    duration=duration,
+                    size=video_size
                 )
-                cv2.imwrite(frame_file, frame)
-            
-            frame_count += 1
-            pbar.update(1)
 
-    cap.release()
-    # Mensaje final fuera de la barra de progreso
-    print(f"✅ {video_name[:15]} ({frame_count} frames)")
+        with tqdm(
+            total=total_frames,
+            desc=f"Extrayendo {video_name[:15]}...",
+            unit="frame",
+            position=position,
+            leave=False
+        ) as pbar:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                
+                if frame_count % sampling_rate == 0:
+                    frame_file = os.path.join(
+                        video_output_folder, 
+                        f"frame_{frame_count:06d}.jpg"
+                    )
+                    cv2.imwrite(frame_file, frame)
+                    saved_frames += 1
+                
+                frame_count += 1
+                pbar.update(1)
+
+        print(f"✅ {video_name[:15]} ({frame_count} frames, {saved_frames} guardados)")
+
+    except Exception as e:
+        print(f"⚠️ Error procesando video {video_name}: {str(e)}")
+    finally:
+        db.close()
+        cap.release()
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description="Extract frames from videos.")
     parser.add_argument(
         "--video_dir",
@@ -73,7 +100,7 @@ if __name__ == "__main__":
     if not os.path.exists(video_dir):
         raise FileNotFoundError(f"⚠️ Carpeta de videos no encontrada: {video_dir}")
 
-    # Create a main "frames" directory
+    # Crear directorio principal para frames
     frames_dir = os.path.join(output_folder, "frames")
     os.makedirs(frames_dir, exist_ok=True)
 
@@ -82,12 +109,15 @@ if __name__ == "__main__":
         print("⚠️ No se encontraron videos MP4 en la carpeta")
         exit()
 
-    # Crear un hilo por video con posición única
+    # Crear un Lock para sincronización entre hilos
+    lock = threading.Lock()
+
+    # Procesar videos en hilos
     threads = []
     for idx, video in enumerate(video_files):
         t = threading.Thread(
             target=process_video,
-            args=(video, frames_dir, idx)  # Save to the "frames" directory
+            args=(video, frames_dir, idx, lock)
         )
         threads.append(t)
         t.start()
