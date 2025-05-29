@@ -35,5 +35,6 @@ except Exception as e:
     print(f"Error detallado: {e}")
     raise
 
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
