@@ -26,8 +26,9 @@ class Menu:
         print("="*46 + "\n")
         respuesta = input("¿Desea ejecutar la configuración del entorno antes de comenzar? (s/n): ").lower()
         if respuesta == 's':
-            print("\n\tAntes de comenzar se configurará el entorno para el correcto funcionamiento")
-            print("\tdel programa. Por favor, espere un momento...")
+            print("\n\tAntes de comenzar se configurará el entorno ")
+            print("\n\tpara el correcto funcionamiento del programa. ")
+            print("\n\tPor favor, espere un momento...")
             sleep(1)
             return True
         else:

@@ -60,6 +60,7 @@ class VideoFunctions:
             print("Por favor, configure las rutas antes de continuar.")
             return
         print("\nIniciando detección y seguimiento de objetos...")
+        
         subprocess.run([
             "python", 
             "Pipeline/detection_tracking.py", 
