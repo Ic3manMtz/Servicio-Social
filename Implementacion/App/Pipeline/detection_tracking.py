@@ -5,10 +5,10 @@ import argparse
 from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
 import concurrent.futures
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import scoped_session
 from sqlalchemy.exc import IntegrityError
 
-from App.database.database import SessionLocal, engine
+from App.database.database import SessionLocal
 from App.database.models import FrameObjectDetection, VideoMetadata
 
 # Configuración global del modelo (se carga una sola vez)
@@ -159,10 +159,9 @@ def process_batch(video_dirs, input_base_dir):
                 # Limpieza periódica
                 gc.collect()
 
-def main(input_base_dir, folders, output_folder):
+def main(input_base_dir, folders):
     try:
         print("Iniciando procesamiento...")
-        os.makedirs(os.path.join(output_folder, "results"), exist_ok=True)
         
         # Procesar en batches más pequeños
         batch_size = 2  # Reducir el tamaño del batch
@@ -200,8 +199,6 @@ if __name__ == "__main__":
                        help="Directorio base con subcarpetas de frames")
     parser.add_argument("--folders", nargs='+', required=True, 
                        help="Lista de nombres de carpetas a analizar")
-    parser.add_argument("--output_folder", type=str, required=True,
-                       help="Directorio base donde se creará la carpeta 'results'")
     args = parser.parse_args()
 
-    main(args.input_dir, args.folders, args.output_folder)
+    main(args.input_dir, args.folders)

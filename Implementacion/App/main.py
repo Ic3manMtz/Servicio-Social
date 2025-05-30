@@ -88,7 +88,7 @@ class Main:
             elif choice == "4":
                 print("\nVisualización de resultados...")
             elif choice == "5":
-                print("\nRelizar análisis completo...")
+                self.handle_video_reconstruction()
             elif choice == "6":
                 print("\nRegresando al menú principal...")
                 break
@@ -117,11 +117,11 @@ class Main:
         print("\nVisualización de resultados...")
         # Aquí se implementaría la lógica para la visualización
 
-    def handle_complete_analysis(self):
+    def handle_video_reconstruction(self):
         """Maneja el análisis completo"""
         print("\nRelizar análisis completo...")
-        # Aquí se implementaría la lógica para el análisis completo
-
+        selection = self.menu.display_frame_folders(self.video_functions.output_folder+"/frames")
+        self.video_functions.reconstruct_video(selection)
 
 if __name__ == "__main__":
     app = Main()

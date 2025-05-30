@@ -66,6 +66,20 @@ class VideoFunctions:
             "Pipeline/detection_tracking.py", 
             "--input_dir", self.output_folder+"/frames", 
             "--folders", *directories_selected,
+        ])
+
+    def reconstruct_video(self, directories_selected):
+        """Reconstruye el video a partir de los frames procesados"""
+        if not self.validate_paths():
+            print("Por favor, configure las rutas antes de continuar.")
+            return
+        print("\nReconstruyendo video...")
+        
+        subprocess.run([
+            "python", 
+            "reconstruct_video.py", 
+            "--input_dir", self.output_folder+"/frames", 
+            "--folders", *directories_selected,
             "--output_folder", self.output_folder
         ])
     
