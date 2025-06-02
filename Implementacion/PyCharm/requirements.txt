@@ -1,0 +1,28 @@
+# Grupo 1 - Paquetes principales
+torch
+torchvision
+opencv-python
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+
+# Grupo 2 - Procesamiento de imágenes/video
+ultralytics
+
+# Grupo 3 - Tracking
+deep-sort-realtime
+
+# Grupo 4 - Multimedia
+ffmpeg-python
+
+# Grupo 5 - Base de datos
+sqlalchemy
+psycopg2-binary
+
+# Grupo 6 - Variables de entorno
+python-dotenv
+
+# Paquete para barras de progreso (ya manejado en el código)
+tqdm
