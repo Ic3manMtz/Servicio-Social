@@ -10,5 +10,44 @@
 	%└── utils/              # Utilidades compartidas
 	%	├── logger.py       # Configuración de logging
 	%	└── helpers.py      # Funciones auxiliares
+
+\dirtree{%
+.1 Proyecto/.
+.2 .venv/.
+.2 src/.
+.2 tests/.
+.2 requirements.txt.
+}
+	\begin{description}
+		\item[Proyecto/]  
+		Raíz del proyecto que contiene todos los archivos y directorios necesarios para el desarrollo y ejecución de la aplicación.
+		\item[.venv/]  
+		Directorio del entorno virtual de Python, que aísla las dependencias del proyecto para evitar conflictos con otros proyectos.
+		\item[src/]  
+		Contiene el código fuente principal de la aplicación, donde se organizan los módulos y paquetes necesarios para su funcionamiento.
+		\item[tests/]  
+		Directorio dedicado a las pruebas automatizadas, que incluye tanto pruebas unitarias como de integración para asegurar la calidad del código.
+		\item[requirements.txt]  
+		Archivo que lista las dependencias del proyecto, especificando las versiones de los paquetes necesarios para su correcto funcionamiento.
+	\end{description}
+
 	\subsection{Descripci\'on de los componentes}
+
+	\noindent Aquí estará la descripción de los componentes del proyecto, incluyendo sus responsabilidades y cómo interactúan entre sí. Cada componente debe ser claramente definido para facilitar la comprensión de la arquitectura general.
+
+
 	\subsection{Flujo de datos}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node distance=2cm,
+    startstop/.style={rectangle, rounded corners, draw, fill=red!20},
+    process/.style={rectangle, draw, fill=blue!20}
+]
+    \node (start) [startstop] {Inicio};
+    \node (proceso) [process, below=of start] {Proceso};  % Usar "below=of" (requiere positioning)
+    \draw [-Stealth] (start) -- (proceso);  % -Stealth es más moderno que ->
+\end{tikzpicture}
+\caption{Flujo de datos}
+\end{figure}
