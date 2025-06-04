@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1749009587.03168 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749009588.90745 0
+["pdflatex"] 1749009626.30522 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749009628.13967 0
   "C:/Users/Joge/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1748897235 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Joge/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1748897127 13158840 96878671d51f2db38fb8210bd4fc6101 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -25,6 +25,7 @@
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
+  "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb" 1247596667 32001 6aeea3afe875097b1eb0da29acd61e28 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb" 1247596666 35022 e40946b20bfdcd1099eafb2bcd9f25dd ""
@@ -101,11 +102,14 @@
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty" 1730400552 7532 d2e1111e17bfebb1607d8ffa779705ec ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1730400552 4545 e3f4de576c914e2000f07f69a891c071 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" 1749009580 3717 d6ac21de61d36cda76dd667389849179 ""
-  "img/gantt.png" 1749009580 53885 ab12943ad7dd15a7688cbdfa31d0a7a6 ""
-  "reporte.aux" 1749009588 2120 673c577ae999499931bc2f14dbe35b82 "pdflatex"
-  "reporte.out" 1749009588 2423 d71abebdd01d11a0e1e6b5b6f4351a0f "pdflatex"
-  "reporte.tex" 1749009580 3717 d6ac21de61d36cda76dd667389849179 ""
+  "Secciones/arquitectura.tex" 1749009619 669 3baa22b16e06ee081debb70dbd30f47b ""
+  "Secciones/configuracion.tex" 1749009619 108 cbb33ac3facb0c729b79c233ef528ac1 ""
+  "Secciones/introduccion.tex" 1749009619 2237 53a8ce5c097135e50b25f2f74899603d ""
+  "Secciones/requisitos.tex" 1749009619 141 c9655e3f42a2e9fee5d6cadae4cf6a5b ""
+  "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" 1749009619 2190 8ad9856dc775576025cc8af02e7bb7fd ""
+  "reporte.aux" 1749009627 2291 07cf48c16e9b69d44cfa5a2b0e954817 "pdflatex"
+  "reporte.out" 1749009627 2546 ea9a6b7acd235d3a2569ec8a0d43aa6b "pdflatex"
+  "reporte.tex" 1749009619 2190 8ad9856dc775576025cc8af02e7bb7fd ""
   (generated)
   "reporte.aux"
   "reporte.log"
