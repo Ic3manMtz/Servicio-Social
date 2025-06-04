@@ -7,7 +7,7 @@ class VideoFunctions:
         self.output_folder = os.getcwd()
         self.environment_configured = False
     
-    def configure_environment(self):
+    def  configure_environment(self):
         """Configura el entorno necesario"""
         print("\nConfigurando el entorno...")
         subprocess.run([
