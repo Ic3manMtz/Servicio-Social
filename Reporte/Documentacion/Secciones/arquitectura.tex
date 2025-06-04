@@ -10,11 +10,18 @@
 .4 creationOfModels.py.
 .4 models/.
 .3 features/.
+.4 handler.py.
+.4 video\_functions.py.
+.4 video\_to\_frames\_concurrent.py.
 .3 menus/.
-.4 shared/.
+.4 main\_menu.py.
+.3 main.py.
 .2 tests/.
+.3 check\_requirements.py.
+.2 .env.
 .2 requirements.txt.
 }
+
 	\begin{description}
 		\item[Proyecto/]  
 		Raíz del proyecto que contiene todos los archivos y directorios necesarios para el desarrollo y ejecución de la aplicación.
@@ -30,7 +37,11 @@
 
 \subsection{Descripci\'on de los componentes}
 
-\noindent Aquí estará la descripción de los componentes del proyecto, incluyendo sus responsabilidades y cómo interactúan entre sí. Cada componente debe ser claramente definido para facilitar la comprensión de la arquitectura general.
+\begin{itemize}
+    \item \textbf{database}: Gestiona la conexión y manipulación de la base de datos. Incluye archivos para la conexión (\texttt{connection.py}), la creación de modelos (\texttt{creationOfModels.py}) y un subdirectorio \texttt{models} donde se definen las estructuras de datos.
+    \item \textbf{features}: Contiene la lógica principal de las funcionalidades de la aplicación, como el procesamiento de video, análisis de frames y reconstrucción.
+    \item \textbf{menus}: Incluye los módulos relacionados con la interfaz de usuario y la navegación dentro de la aplicación. El subdirectorio \texttt{shared} almacena componentes reutilizables entre diferentes menús.
+\end{itemize}
 
 
 \subsection{Flujo de datos}
