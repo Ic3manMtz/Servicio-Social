@@ -1,16 +1,6 @@
-	\section{Arquitectura}
-	\subsection{Diagrama de la estructura del proyecto}
-	%src/
-	%├── core/               # Lógica principal
-	%│   ├── processors.py   # Clases de procesamiento
-	%│   └── models.py       # Modelos de datos
-	%├── api/                # Capa de interfaz
-	%│   ├── routes.py       # Definición de endpoints
-	%│   └── schemas.py      # Esquemas Pydantic
-	%└── utils/              # Utilidades compartidas
-	%	├── logger.py       # Configuración de logging
-	%	└── helpers.py      # Funciones auxiliares
+\section{Arquitectura}
 
+\subsection{Diagrama de la estructura del proyecto}
 \dirtree{%
 .1 Proyecto/.
 .2 .venv/.
@@ -31,23 +21,45 @@
 		Archivo que lista las dependencias del proyecto, especificando las versiones de los paquetes necesarios para su correcto funcionamiento.
 	\end{description}
 
-	\subsection{Descripci\'on de los componentes}
+\subsection{Descripci\'on de los componentes}
 
-	\noindent Aquí estará la descripción de los componentes del proyecto, incluyendo sus responsabilidades y cómo interactúan entre sí. Cada componente debe ser claramente definido para facilitar la comprensión de la arquitectura general.
+\noindent Aquí estará la descripción de los componentes del proyecto, incluyendo sus responsabilidades y cómo interactúan entre sí. Cada componente debe ser claramente definido para facilitar la comprensión de la arquitectura general.
 
 
-	\subsection{Flujo de datos}
-
+\subsection{Flujo de datos}
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    node distance=2cm,
-    startstop/.style={rectangle, rounded corners, draw, fill=red!20},
-    process/.style={rectangle, draw, fill=blue!20}
+    node distance=0.7cm,  % Espaciado más ajustado
+    startstop/.style={
+        rectangle, 
+        rounded corners, 
+        draw, 
+        fill=red!20,
+        minimum width=3cm,
+        text width=2.8cm,
+        align=center
+    },
+    process/.style={
+        rectangle, 
+        draw, 
+        fill=blue!20,
+        minimum width=3cm,
+        text width=2.8cm,
+        align=center
+    }
 ]
-    \node (start) [startstop] {Inicio};
-    \node (proceso) [process, below=of start] {Proceso};  % Usar "below=of" (requiere positioning)
-    \draw [-Stealth] (start) -- (proceso);  % -Stealth es más moderno que ->
+    \node (start) [startstop] {Grabación de video};
+    \node (convertion) [process, below=of start] {Conversión del video a frames};
+    \node (analysis) [process, below=of convertion] {Análisis de frames}; 
+	\node (reconstruction) [process, below=of analysis] {Reconstrucción de video};
+	\node (end) [startstop, below=of reconstruction] {Análisis de los datos obtenidos};
+    
+    % Conexiones con flechas
+    \draw [-Stealth, thick] (start) -- (convertion);
+    \draw [-Stealth, thick] (convertion) -- (analysis);
+	\draw [-Stealth, thick] (analysis) -- (reconstruction);
+	\draw [-Stealth, thick] (reconstruction) -- (end);
 \end{tikzpicture}
 \caption{Flujo de datos}
 \end{figure}

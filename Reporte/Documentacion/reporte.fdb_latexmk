@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1749016611.56385 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749016614.21227 0
+["pdflatex"] 1749017110.17773 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749017113.13221 0
   "C:/Users/Joge/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1749016230 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Joge/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1748969071 12668 84ff0839586d9c0eee2bf2792d7b90ea ""
   "C:/Users/Joge/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1748897127 13158840 96878671d51f2db38fb8210bd4fc6101 ""
@@ -195,13 +195,13 @@
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1730400552 4545 e3f4de576c914e2000f07f69a891c071 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/Joge/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "Secciones/arquitectura.tex" 1749016610 2325 208091153744283d33c5ac2a40fc3306 ""
+  "Secciones/arquitectura.tex" 1749017110 2493 dbf24923996843a299b635f0e05845cb ""
   "Secciones/configuracion.tex" 1749009619 108 cbb33ac3facb0c729b79c233ef528ac1 ""
   "Secciones/introduccion.tex" 1749009619 2237 53a8ce5c097135e50b25f2f74899603d ""
   "Secciones/requisitos.tex" 1749010404 2026 21a01a38ca5a7fbc4901ce3af6102675 ""
   "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" 1749016568 2519 c046659ca82c7a266c2fa9377f5e3cf7 ""
-  "reporte.aux" 1749016613 2295 2abf0187b5e5d28be8ff9858101194eb "pdflatex"
-  "reporte.out" 1749016613 2381 4ff2cb24efeab1636d05c37df079cea1 "pdflatex"
+  "reporte.aux" 1749017112 2295 2abf0187b5e5d28be8ff9858101194eb "pdflatex"
+  "reporte.out" 1749017112 2381 4ff2cb24efeab1636d05c37df079cea1 "pdflatex"
   "reporte.tex" 1749016568 2519 c046659ca82c7a266c2fa9377f5e3cf7 ""
   (generated)
   "reporte.aux"
