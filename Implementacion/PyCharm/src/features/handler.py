@@ -40,7 +40,7 @@ class Handler:
             print("\nOpcion invalida, intente de nuevo")
 
     def set_video_folder(self):
-        path = MainMenu.display_get_folder("\nIngresa la ruta de la carpeta con los videos")
+        path = MainMenu.display_get_folder("\nIngresa la ruta de la carpeta con los videos", default=None)
 
         if os.path.exists(path):
             self.video_folder = path
@@ -49,11 +49,14 @@ class Handler:
             print("La ruta especificada no existe. Inténtelo de nuevo.")
 
     def set_output_folder(self):
-        path = MainMenu.display_get_folder("\nIngresa la ruta de la carpeta con los videos")
+        path = MainMenu.display_get_folder("\nIngresa la ruta de la carpeta con los videos", default=1)
 
-        if os.path.exists(path):
+        if path == "":
+            self.output_folder = os.getcwd()
+            print(f"\n\tRuta seleccionada: {self.output_folder}")
+        elif os.path.exists(path):
             self.output_folder = path
-            print(f"\n\tRuta seleccionada: {self.video_folder}")
+            print(f"\n\tRuta seleccionada: {self.output_folder}")
         else:
             print("La ruta especificada no existe. Inténtelo de nuevo.")
 

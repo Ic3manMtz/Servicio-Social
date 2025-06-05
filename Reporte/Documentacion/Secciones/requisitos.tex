@@ -67,3 +67,10 @@ python tests/check_requirements/
 		\end{lstlisting}
 	\end{enumerate}
 
+\noindent Una vez descargadas las dependencias necesarias. Si es la primera vez que se usará el programa el siguiente paso es crear las tablas de la base de datos utilizando los modelos ya creados.
+\begin{enumerate}
+	\item Se tiene que abrir el manejar de la base de datos, en el caso de PostgreSQL se llama pgAdmin, para este proyecto se recomienda usar la versión cuatro.
+	\item Una vez abierto se tiene que crear una base de datos llamada \texttt{VideoData}. El nombre de la base de datos, el usuario y la contraseña se pueden modificar en la variable de entorno \texttt{DB\_CONNECTION\_STRING}, se encuentra dentro del archivo \texttt{.env}.
+	\item Con la base de datos creada lo siguiente es ejecutar el archivo \texttt{creationOfModels.py}, se encuentra dentro del paquete \texttt{database} del proyecto.
+	\item Al terminar la ejecución ya deben estar las mismas tablas que modelos dentro de la base de datos.
+\end{enumerate}

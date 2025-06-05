@@ -5,16 +5,15 @@ from tqdm import tqdm
 import threading
 import argparse
 from sqlalchemy import or_
-from database.database import SessionLocal
-from database.crud.video_crud import VideoCRUD
-
+from src.database.connection import SessionLocal
+from src.database.db_crud import VideoCRUD
 
 def get_video_size(video_path):
     """Obtiene el tamaño del archivo de video en megabytes"""
     return os.path.getsize(video_path) / (1024 * 1024)  # Convertir a MB
 
 
-def process_video(video_path, output_folder, position, lock):
+def process_video(video_path, output_folder, position, lock, disable_progress=False):
     video_name = os.path.splitext(os.path.basename(video_path))[0]
     video_output_folder = os.path.join(output_folder, video_name)
     os.makedirs(video_output_folder, exist_ok=True)
@@ -49,12 +48,14 @@ def process_video(video_path, output_folder, position, lock):
                     size=video_size
                 )
 
+        # Usar una sola barra de progreso por hilo que se mantiene visible
         with tqdm(
                 total=total_frames,
                 desc=f"Extrayendo {video_name[:15]}...",
                 unit="frame",
                 position=position,
-                leave=False
+                leave=True,  # Cambiado a True para mantener la barra
+                disable=disable_progress  # Opción para desactivar la barra
         ) as pbar:
             while True:
                 ret, frame = cap.read()
@@ -95,6 +96,11 @@ if __name__ == "__main__":
         required=True,
         help="Path to the directory where frames will be saved."
     )
+    parser.add_argument(
+        "--no-progress",
+        action="store_true",
+        help="Disable progress bars for cleaner output."
+    )
     args = parser.parse_args()
 
     video_dir = args.video_dir
@@ -115,17 +121,26 @@ if __name__ == "__main__":
     # Crear un Lock para sincronización entre hilos
     lock = threading.Lock()
 
-    # Procesar videos en hilos
+    # Calcula número óptimo de hilos
+    optimal_threads = min(len(video_files), (os.cpu_count() or 4) * 2)
+
+    # Procesar videos en hilos (con límite)
     threads = []
     for idx, video in enumerate(video_files):
+        if len(threads) >= optimal_threads:
+            # Esperar a que haya disponibilidad
+            for t in threads:
+                t.join()
+            threads = []
+
         t = threading.Thread(
             target=process_video,
-            args=(video, frames_dir, idx, lock)
+            args=(video, frames_dir, idx % optimal_threads, lock, args.no_progress)
         )
         threads.append(t)
         t.start()
 
-    # Esperar a que todos los hilos terminen
+    # Esperar los hilos restantes
     for t in threads:
         t.join()
 

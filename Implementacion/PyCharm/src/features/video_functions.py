@@ -7,7 +7,7 @@ class VideoFunctions:
         print("\nProcesando video...")
         subprocess.run([
             "python",
-            "video_to_frames_C.py",
+            "features/video_to_frames_concurrent.py",
             "--video_dir", video_folder,
             "--output_folder", output_folder
         ])

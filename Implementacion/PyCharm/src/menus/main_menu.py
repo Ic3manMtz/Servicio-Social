@@ -57,7 +57,7 @@ class MainMenu:
         return input(" ➤ Seleccione una opción: ")
 
     @staticmethod
-    def display_get_folder(prompt, default=None) -> str:
+    def display_get_folder(prompt, default=1) -> str:
         if default:
             prompt += f" (Enter para usar la ruta actual): "
         else:
