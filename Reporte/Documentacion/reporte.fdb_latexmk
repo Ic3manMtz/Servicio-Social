@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1749230169.2699 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749230170.54964 0
+["pdflatex"] 1749253698.95242 "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" "reporte.pdf" "reporte" 1749253700.21877 0
   "C:/Users/Joge/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1749016230 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Joge/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1748969071 12668 84ff0839586d9c0eee2bf2792d7b90ea ""
   "C:/Users/Joge/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1748897127 13158840 96878671d51f2db38fb8210bd4fc6101 ""
@@ -198,10 +198,10 @@
   "Secciones/arquitectura.tex" 1749230168 5843 6e7864bccec2ae7862d7ce7052004f9a ""
   "Secciones/configuracion.tex" 1749009619 108 cbb33ac3facb0c729b79c233ef528ac1 ""
   "Secciones/introduccion.tex" 1749009619 2237 53a8ce5c097135e50b25f2f74899603d ""
-  "Secciones/requisitos.tex" 1749076664 2969 d1a5426f7c5360a72e92b274c85268db ""
+  "Secciones/requisitos.tex" 1749253698 3238 722027b0e861c837fd50537e8edbe762 ""
   "c:/Users/Joge/Documents/Servicio-Social/Reporte/Documentacion/reporte.tex" 1749072427 2495 389de980a25bd07a11061e28cabe253a ""
-  "reporte.aux" 1749230170 3177 8e4330bc40edb3f3df62ac4e68322dce "pdflatex"
-  "reporte.out" 1749230170 2381 4ff2cb24efeab1636d05c37df079cea1 "pdflatex"
+  "reporte.aux" 1749253700 3177 8e4330bc40edb3f3df62ac4e68322dce "pdflatex"
+  "reporte.out" 1749253700 2381 4ff2cb24efeab1636d05c37df079cea1 "pdflatex"
   "reporte.tex" 1749072427 2495 389de980a25bd07a11061e28cabe253a ""
   (generated)
   "reporte.aux"

@@ -46,20 +46,21 @@
 	\begin{enumerate}
 		\item Instalar PostgreSQL 17.5.1 desde la \href{https://www.postgresql.org/download/}{p\'agina oficial} de PostgreSQL.
 		\item Clonar el repositorio del proyecto desde \href{https://github.com/Ic3manMtz/Servicio-Social.git}{Github} el proyecto se encuentra dentro de la carpeta \texttt{Implementaci\'on}.
-		\item Crear un entorno virtual en Python:
+		\item Usar el entorno virtual que ya está en el proyecto:
 		\begin{lstlisting}[language=bash]
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-.\.venv\Scripts\activate   # Windows
+.venv/bin/activate  # Linux/Mac
+.\.venv\Scripts\activate.ps1   # Windows
 		\end{lstlisting}
-		\item Instalar las dependencias del proyecto:
+		
+		\marginpar{right}{Al ejecutar el comando anterior en windows es posible que aparezca un error de permisos, para solucionarlo se tiene que ejecutar el siguiente comando en la terminal de PowerShell: \texttt{Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process}}
+
+		\item Instalar el proyecto del entorno virtual:
 		\begin{lstlisting}[language=python]
-pip install -r requirements.txt
+pip install -e .
 		\end{lstlisting}
 		\item Configurar variable de entorno:
 		\begin{lstlisting}
-cp .env.example .env
-nano .env  # Editar valores
+nano .env  # Editar valores de acuerdo a tu configuracion
 		\end{lstlisting}
 		\item Verificar instalaci\'on:
 		\begin{lstlisting}[language=python]
