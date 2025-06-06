@@ -116,6 +116,26 @@ class MainMenu:
         print("\n" + "-" * 40)
         input("Presione Enter para continuar...")
 
-    def display_frames_analysed(self):
+    @staticmethod
+    def display_frames_analysed(frames_analyzed):
         print("\n" + "=" * 40)
-        
+        print(" " * 5 + "VIDEOS CON FRAMES ANAALIZADOS".center(20))
+        print("=" * 40 + "\n")
+
+
+        print("Seleccione los videos que desea usar (separe los números con comas):")
+        for idx, frame in enumerate(frames_analyzed, 1):
+            print(f"  {idx}. {frame}")
+
+        selection = input(
+            "\nIngrese los números de las carpetas, separados por comas (Enter para seleccionar todas): ").strip()
+        if not selection:
+             # Si el usuario presiona Enter, selecciona todas las carpetas
+            frames_selected = frames_analyzed
+        else:
+            indices = [int(i.strip()) for i in selection.split(",") if i.strip().isdigit()]
+            frames_selected = [frame[i - 1] for i in indices if 1 <= i <= len(frame)]
+        return frames_selected
+
+        print("\n" + "-" * 40)
+        input("Presione Enter para continuar...")

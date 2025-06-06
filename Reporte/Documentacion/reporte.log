@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.2)  5 JUN 2025 14:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.6.2)  6 JUN 2025 11:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -746,7 +746,7 @@ Package srcltx Info: Expanded filename `Secciones/arquitectura.tex' to `Seccione
 LaTeX Info: Redefining \. on input line 51.
 LaTeX Info: Redefining \% on input line 51.
 [5]
-Overfull \hbox (6.69846pt too wide) in paragraph at lines 57--58
+Overfull \hbox (6.69846pt too wide) in paragraph at lines 61--62
 \OT1/cmr/m/n/10.95 La cla-se con-tie-ne va-rios m^^Seto-dos. El pri-me-ro se lla-ma \OT1/cmtt/m/n/10.95 configure[]requirements\OT1/cmr/m/n/10.95 ,
  []
 
@@ -776,15 +776,15 @@ Package rerunfilecheck Info: File `reporte.out' has not changed.
 (rerunfilecheck)             Checksum: 4FF2CB24EFEAB1636D05C37DF079CEA1;2381.
  ) 
 Here is how much of TeX's memory you used:
- 28771 strings out of 469923
- 552541 string characters out of 5469655
+ 28783 strings out of 469923
+ 552685 string characters out of 5469655
  1113458 words of memory out of 5000000
- 55063 multiletter control sequences out of 15000+600000
+ 55075 multiletter control sequences out of 15000+600000
  634853 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,8n,91p,810b,1487s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Joge\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Joge/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on reporte.pdf (7 pages, 160885 bytes).
+Output written on reporte.pdf (7 pages, 161351 bytes).
 PDF statistics:
  196 PDF objects out of 1000 (max. 8388607)
  55 named destinations out of 1000 (max. 500000)

@@ -1,5 +1,5 @@
 from sqlalchemy import select, distinct
-from sqlalchemy.orm import Session, session
+from sqlalchemy.orm import Session
 from src.database.models import VideoMetadata, FrameObjectDetection
 from typing import List, Optional
 
@@ -26,14 +26,17 @@ class VideoCRUD:
 
     def get_all_videos_with_detections(self) -> List[VideoMetadata]:
         try:
-            query = select(distinct(VideoMetadata.title)).join(
-                FrameObjectDetection,
-                VideoMetadata.video_id == FrameObjectDetection.video_id
-            )
-            results = session.execute(query).fetchall()
-            return [item[0] for item in results]
+            return [
+            result[0] for result in
+            self.db.query(VideoMetadata.title)
+            .join(FrameObjectDetection)
+            .filter(VideoMetadata.video_id == FrameObjectDetection.video_id)
+            .distinct()
+            .all()
+            ]
         except Exception as e:
-            print(f"Error al ejecutar la consulta: {e}")
+            self.db.rollback()
+            print(f"Error al obtener videos con detecciones: {e}")
             return []
 
     def update_video(self, video_id: int, **kwargs) -> Optional[VideoMetadata]:

@@ -78,8 +78,9 @@ class Handler:
             elif choice == '5':
                 print("Visualización de resultados")
             elif choice == '6':
-                directories_selected = MainMenu.display_frame_folders(self.output_folder+"/frames")
-                VideoFunctions.reconstruct_video(directories_selected, self.output_folder)
+                frames_analyzed = VideoFunctions.get_frames_analyzed()
+                frames_selected = MainMenu.display_frames_analysed(frames_analyzed)
+                VideoFunctions.reconstruct_video(frames_selected, self.output_folder)
             elif choice == '7':
                 print("Regresar al menu anterior")
                 break
