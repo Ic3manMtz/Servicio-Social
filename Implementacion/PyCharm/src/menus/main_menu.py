@@ -1,3 +1,4 @@
+import os
 from time import sleep
 from typing import List, Tuple, Optional
 
@@ -81,3 +82,40 @@ class MainMenu:
         print(f"\nCarpeta de videos: {video_folder}")
         print(f"Carpeta de salida: {output_folder}")
         return input("¿Son correctas estas rutas? (s/n): ").lower()
+
+    @staticmethod
+    def display_frame_folders(frames_path):
+        print("\n" + "=" * 40)
+        print(" " * 5 + "CARPETAS DE FRAMES CONVERTIDOS".center(20))
+        print("=" * 40 + "\n")
+
+        if os.path.exists(frames_path):
+            dir_names = []
+            for _, dirs, _ in os.walk(frames_path):
+                dir_names = dirs
+                break  # Solo queremos el primer nivel de carpetas
+
+            if not dir_names:
+                print("No se encontraron carpetas de frames.")
+                return []
+
+            print("Seleccione las carpetas que desea usar (separe los números con comas):")
+            for idx, dir_name in enumerate(dir_names, 1):
+                print(f"  {idx}. {dir_name}")
+
+            selection = input(
+                "\nIngrese los números de las carpetas, separados por comas (Enter para seleccionar todas): ").strip()
+            if not selection:
+                # Si el usuario presiona Enter, selecciona todas las carpetas
+                directories_selected = dir_names
+            else:
+                indices = [int(i.strip()) for i in selection.split(",") if i.strip().isdigit()]
+                directories_selected = [dir_names[i - 1] for i in indices if 1 <= i <= len(dir_names)]
+            return directories_selected
+
+        print("\n" + "-" * 40)
+        input("Presione Enter para continuar...")
+
+    def display_frames_analysed(self):
+        print("\n" + "=" * 40)
+        

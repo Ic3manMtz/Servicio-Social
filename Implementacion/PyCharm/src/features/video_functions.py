@@ -12,3 +12,22 @@ class VideoFunctions:
             "--output_folder", output_folder
         ])
 
+    @staticmethod
+    def detect_and_track(directories_selected, output_folder) -> None:
+        subprocess.run([
+            "python",
+            "features/detect_tracking.py",
+            "--input_dir", output_folder,
+            "--folders", *directories_selected
+        ])
+
+    @staticmethod
+    def reconstruct_video(directories_selected, output_folder) -> None:
+        subprocess.run([
+            "python",
+            "features/reconstruct_video.py",
+            "--input_dir", output_folder + "/frames",
+            "--folders", *directories_selected,
+            "--output_folder", output_folder
+        ])
+

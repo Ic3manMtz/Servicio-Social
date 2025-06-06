@@ -69,7 +69,8 @@ class Handler:
                 if response == 's':
                     VideoFunctions.convert_video_to_frames(self.video_folder, self.output_folder)
             elif choice == '2':
-                print("Deteccion de objetos y seguimiento")
+                directories_selected = MainMenu.display_frame_folders(self.output_folder+"/frames")
+                VideoFunctions.detect_and_track(directories_selected, self.output_folder+"/frames")
             elif choice == '3':
                 print("Clusterización de imágenes")
             elif choice == '4':
@@ -77,7 +78,8 @@ class Handler:
             elif choice == '5':
                 print("Visualización de resultados")
             elif choice == '6':
-                print("Visualización de videos con boxes")
+                directories_selected = MainMenu.display_frame_folders(self.output_folder+"/frames")
+                VideoFunctions.reconstruct_video(directories_selected, self.output_folder)
             elif choice == '7':
                 print("Regresar al menu anterior")
                 break
