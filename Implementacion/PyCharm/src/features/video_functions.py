@@ -37,6 +37,20 @@ class VideoFunctions:
         ])
 
     @staticmethod
+    def get_videos_analyzed() -> list[VideoMetadata]:
+        session = SessionLocal()
+        try:
+            videoCRUD = VideoCRUD(session)
+            frames_selected = videoCRUD.get_all_videos_coverted()
+            return frames_selected
+        except Exception as e:
+            print(f"Error al obtener frames analizados: {e}")
+            session.rollback()  # Importante para revertir cambios si hay error
+            return []
+        finally:
+            session.close()
+
+    @staticmethod
     def get_frames_analyzed() -> list[VideoMetadata]:
         session = SessionLocal()
         try:

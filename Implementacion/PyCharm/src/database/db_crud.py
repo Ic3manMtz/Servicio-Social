@@ -24,6 +24,19 @@ class VideoCRUD:
     def get_video_by_title(self, title: str) -> Optional[VideoMetadata]:
         return self.db.query(VideoMetadata).filter(VideoMetadata.title == title).first()
 
+    def get_all_videos_coverted(self) -> List[VideoMetadata]:
+        try:
+            return [
+                result[0] for result in
+                self.db.query(VideoMetadata.title)
+                .distinct()
+                .all()
+            ]
+        except Exception as e:
+            self.db.rollback()
+            print(f"Error al obtener videos con detecciones: {e}")
+            return []
+
     def get_all_videos_with_detections(self) -> List[VideoMetadata]:
         try:
             return [

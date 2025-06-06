@@ -84,34 +84,25 @@ class MainMenu:
         return input("¿Son correctas estas rutas? (s/n): ").lower()
 
     @staticmethod
-    def display_frame_folders(frames_path):
+    def display_frame_folders(videos_converted):
         print("\n" + "=" * 40)
-        print(" " * 5 + "CARPETAS DE FRAMES CONVERTIDOS".center(20))
+        print(" " * 5 + "VIDEOS CONVERTIDOS A FRAMES".center(20))
         print("=" * 40 + "\n")
 
-        if os.path.exists(frames_path):
-            dir_names = []
-            for _, dirs, _ in os.walk(frames_path):
-                dir_names = dirs
-                break  # Solo queremos el primer nivel de carpetas
 
-            if not dir_names:
-                print("No se encontraron carpetas de frames.")
-                return []
+        print("Seleccione los videos que desea usar (separe los números con comas):")
+        for idx, video in enumerate(videos_converted, 1):
+            print(f"  {idx}. {video}")
 
-            print("Seleccione las carpetas que desea usar (separe los números con comas):")
-            for idx, dir_name in enumerate(dir_names, 1):
-                print(f"  {idx}. {dir_name}")
-
-            selection = input(
-                "\nIngrese los números de las carpetas, separados por comas (Enter para seleccionar todas): ").strip()
-            if not selection:
-                # Si el usuario presiona Enter, selecciona todas las carpetas
-                directories_selected = dir_names
-            else:
-                indices = [int(i.strip()) for i in selection.split(",") if i.strip().isdigit()]
-                directories_selected = [dir_names[i - 1] for i in indices if 1 <= i <= len(dir_names)]
-            return directories_selected
+        selection = input(
+            "\nIngrese los números de las carpetas, separados por comas (Enter para seleccionar todas): ").strip()
+        if not selection:
+             # Si el usuario presiona Enter, selecciona todas las carpetas
+            videos_selected = videos_converted
+        else:
+            indices = [int(i.strip()) for i in selection.split(",") if i.strip().isdigit()]
+            videos_selected = [video[i - 1] for i in indices if 1 <= i <= len(video)]
+        return videos_selected
 
         print("\n" + "-" * 40)
         input("Presione Enter para continuar...")

@@ -2,6 +2,7 @@
 torch
 torchvision
 opencv-python
+pycuda
 numpy
 pandas
 scikit-learn

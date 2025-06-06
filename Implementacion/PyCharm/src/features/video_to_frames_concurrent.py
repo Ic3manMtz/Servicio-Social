@@ -48,31 +48,34 @@ def process_video(video_path, output_folder, position, lock, disable_progress=Fa
                     size=video_size
                 )
 
-        # Usar una sola barra de progreso por hilo que se mantiene visible
-        with tqdm(
-                total=total_frames,
-                desc=f"Extrayendo {video_name[:15]}...",
-                unit="frame",
-                position=position,
-                leave=True,  # Cambiado a True para mantener la barra
-                disable=disable_progress  # Opción para desactivar la barra
-        ) as pbar:
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    break
+        # Configurar la barra de progreso con position fija y dynamic_ncols
+        pbar = tqdm(
+            total=total_frames,
+            desc=f"Extrayendo {video_name[:15]}...",
+            unit="frame",
+            position=position,
+            leave=False,  # Cambiado a False para limpiar la barra al terminar
+            disable=disable_progress,
+            dynamic_ncols=True  # Ajustar al ancho de la terminal
+        )
 
-                if frame_count % sampling_rate == 0:
-                    frame_file = os.path.join(
-                        video_output_folder,
-                        f"frame_{frame_count:06d}.jpg"
-                    )
-                    cv2.imwrite(frame_file, frame)
-                    saved_frames += 1
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-                frame_count += 1
-                pbar.update(1)
+            if frame_count % sampling_rate == 0:
+                frame_file = os.path.join(
+                    video_output_folder,
+                    f"frame_{frame_count:06d}.jpg"
+                )
+                cv2.imwrite(frame_file, frame)
+                saved_frames += 1
 
+            frame_count += 1
+            pbar.update(1)
+
+        pbar.close()  # Cerrar la barra adecuadamente
         print(f"✅ {video_name[:15]} ({frame_count} frames, {saved_frames} guardados)")
 
     except Exception as e:

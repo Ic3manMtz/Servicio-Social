@@ -69,8 +69,10 @@ class Handler:
                 if response == 's':
                     VideoFunctions.convert_video_to_frames(self.video_folder, self.output_folder)
             elif choice == '2':
-                directories_selected = MainMenu.display_frame_folders(self.output_folder+"/frames")
-                VideoFunctions.detect_and_track(directories_selected, self.output_folder+"/frames")
+                # Hay que sacar los nombres de la base de datos y no de la carpeta
+                videos_converted = VideoFunctions.get_videos_analyzed()
+                videos_selected = MainMenu.display_frame_folders(videos_converted)
+                VideoFunctions.detect_and_track(videos_selected, self.output_folder+"/frames")
             elif choice == '3':
                 print("Clusterización de imágenes")
             elif choice == '4':
