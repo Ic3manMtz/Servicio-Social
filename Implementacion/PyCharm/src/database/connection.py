@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
+
 # Cargar variables de entorno
 load_dotenv()
 
@@ -18,11 +19,15 @@ if not DATABASE_URL:
 
 # Configurar el motor de SQLAlchemy
 try:
+    if 'engine' in globals():
+        engine.dispose()
+
     engine = create_engine(
         DATABASE_URL,
-        pool_size=10,
-        max_overflow=20,
-        pool_pre_ping=True
+        pool_size=50, # Tamaño del pool de conexiones
+        max_overflow=20,  # Permitir hasta 20 conexiones adicionales
+        pool_pre_ping=True,
+        pool_recycle=3600  # Reciclar conexiones cada 1 hora
     )
 
     # Verificar la conexión

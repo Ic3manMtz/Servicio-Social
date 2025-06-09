@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14b759f4-13ad-4bfa-a63c-13b186e5269c" name="Changes" comment="" />
+    <list default="true" id="14b759f4-13ad-4bfa-a63c-13b186e5269c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/video_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/video_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/video_to_frames_concurrent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/video_to_frames_concurrent.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,6 +174,8 @@
       <workItem from="1749252137972" duration="136000" />
       <workItem from="1749252284913" duration="301000" />
       <workItem from="1749252595819" duration="158000" />
+      <workItem from="1749487614023" duration="3000" />
+      <workItem from="1749489568066" duration="29000" />
     </task>
     <servers />
   </component>

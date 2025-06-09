@@ -30,7 +30,7 @@ def process_video(video_path, output_folder, position, lock, disable_progress=Fa
     video_size = get_video_size(video_path)
 
     frame_count = 0
-    sampling_rate = 30
+    sampling_rate = 60 # Extraer 1 de cada 60 frames
     saved_frames = 0
 
     db = SessionLocal()
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     lock = threading.Lock()
 
     # Calcula número óptimo de hilos
-    optimal_threads = min(len(video_files), (os.cpu_count() or 4) * 2)
+    optimal_threads = 5  # Ajusta este valor según tu sistema
 
     # Procesar videos en hilos (con límite)
     threads = []
