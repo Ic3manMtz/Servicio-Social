@@ -20,7 +20,7 @@ def initialize_models():
     """Inicializa los modelos una sola vez"""
     global MODEL, TRACKER
     if MODEL is None:
-        MODEL = YOLO("yolov8n.pt")
+        MODEL = YOLO("yolo11n.pt")
         MODEL.verbose = False
         # Configurar dispositivo (GPU si está disponible)
         MODEL.to('cuda' if torch.cuda.is_available() else 'cpu')

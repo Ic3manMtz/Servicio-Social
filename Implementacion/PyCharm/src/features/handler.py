@@ -72,6 +72,7 @@ class Handler:
                 # Hay que sacar los nombres de la base de datos y no de la carpeta
                 videos_converted = VideoFunctions.get_videos_analyzed()
                 videos_selected = MainMenu.display_frame_folders(videos_converted)
+                print(f"\n\tVideos seleccionados: {videos_selected}")   
                 VideoFunctions.detect_and_track(videos_selected, self.output_folder+"/frames")
             elif choice == '3':
                 print("Clusterización de imágenes")
