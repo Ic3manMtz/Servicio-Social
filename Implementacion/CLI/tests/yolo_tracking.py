@@ -56,7 +56,7 @@ def process_frames(frames_folder, model_path="yolo11n.pt"):
 
 if __name__ == "__main__":
     # Configuración
-    frames_folder = "./frames/05-26-2025-V4"  # Cambiar por tu ruta
+    frames_folder = "./frames/06-11-2025-V3"  # Cambiar por tu ruta
     model_path = "yolo11n.pt"  # O "yolov11n.pt" según tu modelo
     
     # Ejecutar procesamiento

@@ -30,7 +30,7 @@ def process_video(video_path, output_folder, position, lock, disable_progress=Fa
     video_size = get_video_size(video_path)
 
     frame_count = 0
-    sampling_rate = 60 # Extraer 1 de cada 60 frames
+    sampling_rate = 60 # Extraer 1 de cada 60 frames, con el FPS del video esto es aproximadamente 1 frame por segundo
     saved_frames = 0
 
     db = SessionLocal()
