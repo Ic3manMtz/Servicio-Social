@@ -20,6 +20,7 @@ src/menus/__init__.py
 src/menus/main_menu.py
 tests/__init__.py
 tests/check_requirements.py
+tests/test_gpu.py
 tests/test_torch.py
 tests/yolo_tracking.py
 tests/yolo_version.py
