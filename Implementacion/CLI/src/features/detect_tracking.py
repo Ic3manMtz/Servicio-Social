@@ -3,31 +3,26 @@ import cv2
 import gc
 import argparse
 from ultralytics import YOLO
-from deep_sort_realtime.deepsort_tracker import DeepSort
 import concurrent.futures
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.exc import IntegrityError
+import torch
 
 from src.database.connection import SessionLocal
 from src.database.models import FrameObjectDetection, VideoMetadata
 
 # Configuración global del modelo (se carga una sola vez)
 MODEL = None
-TRACKER = None
 
-
-def initialize_models():
-    """Inicializa los modelos una sola vez"""
-    global MODEL, TRACKER
+def initialize_model():
+    """Inicializa el modelo YOLO una sola vez"""
+    global MODEL
     if MODEL is None:
         MODEL = YOLO("yolo11n.pt")
         MODEL.verbose = False
         # Configurar dispositivo (GPU si está disponible)
         MODEL.to('cuda' if torch.cuda.is_available() else 'cpu')
-    if TRACKER is None:
-        TRACKER = DeepSort(max_age=3)
-    return MODEL, TRACKER
-
+    return MODEL
 
 def get_or_create_video(session, video_name):
     """Obtiene o crea un registro de video en la base de datos"""
@@ -42,11 +37,10 @@ def get_or_create_video(session, video_name):
             video = session.query(VideoMetadata).filter_by(title=video_name).first()
     return video
 
-
 def process_video(video_dir, input_base_dir):
     try:
-        # Usar modelos globales
-        model, tracker = initialize_models()
+        # Usar modelo global
+        model = initialize_model()
 
         frame_dir = os.path.join(input_base_dir, video_dir)
         if not os.path.isdir(frame_dir):
@@ -78,39 +72,36 @@ def process_video(video_dir, input_base_dir):
             except (IndexError, ValueError):
                 continue
 
-            # Procesamiento con YOLO
-            results = model(frame, classes=[0], conf=0.5)
-            detections = []
-            for box in results[0].boxes:
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                conf = float(box.conf[0])
-                detections.append(([x1, y1, x2 - x1, y2 - y1], conf, "person"))
-
-            # Seguimiento con DeepSort
-            tracks = tracker.update_tracks(detections, frame=frame)
-
+            # DETECCIÓN Y SEGUIMIENTO MEJORADO (como en el segundo script)
+            results = model.track(
+                frame,
+                persist=True,
+                tracker="bytetrack.yaml",
+                classes=[0],  # Solo personas (ID 0 en COCO)
+                verbose=False
+            )
+            
             # Liberar memoria inmediatamente
             del frame
-            del results
             gc.collect()
 
-            # Acumular detecciones para batch commit
-            for track in tracks:
-                if not track.is_confirmed():
-                    continue
-
-                track_id = track.track_id
-                x1, y1, x2, y2 = track.to_ltrb()
-
-                detections_batch.append(FrameObjectDetection(
-                    video_id=video.video_id,
-                    frame_number=frame_num,
-                    track_id=track_id,
-                    x1=float(x1),
-                    y1=float(y1),
-                    x2=float(x2),
-                    y2=float(y2)
-                ))
+            # Procesar resultados si hay detecciones
+            if results[0].boxes.id is not None:
+                track_ids = results[0].boxes.id.cpu().numpy().astype(int)
+                boxes_xyxy = results[0].boxes.xyxy.cpu().numpy()
+                
+                for track_id, box in zip(track_ids, boxes_xyxy):
+                    x1, y1, x2, y2 = map(float, box[:4])
+                    
+                    detections_batch.append(FrameObjectDetection(
+                        video_id=video.video_id,
+                        frame_number=frame_num,
+                        track_id=int(track_id),
+                        x1=x1,
+                        y1=y1,
+                        x2=x2,
+                        y2=y2
+                    ))
 
             # Commit por lotes
             if len(detections_batch) >= BATCH_SIZE:
@@ -141,6 +132,7 @@ def process_video(video_dir, input_base_dir):
             db.remove()
         gc.collect()
 
+# Las funciones process_batch y main permanecen iguales (sin cambios)
 
 def process_batch(video_dirs, input_base_dir):
     """Procesa un batch de videos con gestión de recursos"""
@@ -163,13 +155,36 @@ def process_batch(video_dirs, input_base_dir):
                 # Limpieza periódica
                 gc.collect()
 
-
-def main(input_base_dir, folders):
+def main(input_base_dir, folders, device='cpu'):
     try:
         print("Iniciando procesamiento...")
+        
+        # Determinar batch_size dinámico según el dispositivo
+        if device.lower() == 'cuda':
+            safety_margin = 0.15  # Margen de seguridad del 10%
+            # Tamaño mayor para GPU
+            total_mem = torch.cuda.get_device_properties(device).total_memory
+            allocated_mem = torch.cuda.memory_allocated(device)
+            reserved_mem = torch.cuda.memory_reserved(device)
+            
+            free_mem = total_mem - (allocated_mem + reserved_mem)
 
-        # Procesar en batches más pequeños
-        batch_size = 2  # Reducir el tamaño del batch
+            # Calcular memoria disponible con margen de seguridad
+            available_mem = free_mem * (1 - safety_margin)
+            
+            # Estimar memoria requerida por elemento (ajustar según tu caso)
+            # Esto deberías calibrarlo con tu carga de trabajo real
+            mem_per_item = 440 * 1024 * 1024  # Convertir a bytes (440 MB por imagen)
+
+            # Calcular batch size máximo
+            batch_size = int(available_mem // mem_per_item)
+        else:
+            # Tamaño conservador para CPU
+            batch_size = 2
+            
+        print(f"Usando batch_size = {batch_size} para dispositivo: {device}")
+
+        # Procesar en batches dinámicos
         for i in range(0, len(folders), batch_size):
             batch = folders[i:i + batch_size]
             print(f"Procesando batch {i // batch_size + 1}: {', '.join(batch)}")
@@ -184,20 +199,17 @@ def main(input_base_dir, folders):
         print(f"Error durante el procesamiento: {str(e)}")
     finally:
         # Limpiar modelos globales al finalizar
-        global MODEL, TRACKER
+        global MODEL
         if MODEL is not None:
             del MODEL
-        if TRACKER is not None:
-            del TRACKER
         gc.collect()
-
 
 if __name__ == "__main__":
     # Verificar si hay GPU disponible
     try:
         import torch
-
         print(f"GPU disponible: {torch.cuda.is_available()}")
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
     except ImportError:
         print("PyTorch no está instalado, usando CPU")
 
@@ -208,4 +220,4 @@ if __name__ == "__main__":
                         help="Lista de nombres de carpetas a analizar")
     args = parser.parse_args()
 
-    main(args.input_dir, args.folders)
+    main(args.input_dir, args.folders,device=device)

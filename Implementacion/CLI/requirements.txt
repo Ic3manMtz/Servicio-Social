@@ -1,8 +1,5 @@
 # Grupo 1 - Paquetes principales
-torch
-torchvision
 opencv-python
-pycuda
 numpy
 pandas
 scikit-learn
@@ -11,6 +8,7 @@ seaborn
 
 # Grupo 2 - Procesamiento de imágenes/video
 ultralytics
+lap>=0.5.12
 
 # Grupo 3 - Tracking
 deep-sort-realtime

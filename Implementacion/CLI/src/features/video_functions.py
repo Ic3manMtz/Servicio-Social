@@ -1,4 +1,5 @@
 import subprocess
+from typing import List
 
 from src.database.connection import SessionLocal
 from src.database.db_crud import VideoCRUD
@@ -37,7 +38,7 @@ class VideoFunctions:
         ])
 
     @staticmethod
-    def get_videos_analyzed() -> list[VideoMetadata]:
+    def get_videos_analyzed() -> List[VideoMetadata]:
         session = SessionLocal()
         try:
             videoCRUD = VideoCRUD(session)
@@ -51,7 +52,7 @@ class VideoFunctions:
             session.close()
 
     @staticmethod
-    def get_frames_analyzed() -> list[VideoMetadata]:
+    def get_frames_analyzed() -> List[VideoMetadata]:
         session = SessionLocal()
         try:
             videoCRUD = VideoCRUD(session)
@@ -63,3 +64,11 @@ class VideoFunctions:
             return []
         finally:
             session.close()
+
+    @staticmethod
+    def command_run() -> None:
+        """Ejecuta el comando de la CLI para iniciar el procesamiento de videos."""
+        subprocess.run([
+            "python",
+            "src/features/terminal.py",
+        ])

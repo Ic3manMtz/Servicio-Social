@@ -28,9 +28,12 @@ class VideoCRUD:
         try:
             return [
                 result[0] for result in
-                self.db.query(VideoMetadata.title)
-                .distinct()
-                .all()
+                self.db.query(VideoMetadata.title).outerjoin(
+                    FrameObjectDetection,
+                    VideoMetadata.video_id == FrameObjectDetection.video_id
+                ).filter(
+                    FrameObjectDetection.video_id.is_(None)
+                ).distinct().all()
             ]
         except Exception as e:
             self.db.rollback()

@@ -14,12 +14,13 @@ src/features/__init__.py
 src/features/detect_tracking.py
 src/features/handler.py
 src/features/reconstruct_video.py
+src/features/terminal.py
 src/features/video_functions.py
 src/features/video_to_frames_concurrent.py
 src/menus/__init__.py
 src/menus/main_menu.py
 tests/__init__.py
-tests/check_requirements.py
+tests/test_gpu.py
 tests/test_torch.py
 tests/yolo_tracking.py
 tests/yolo_version.py

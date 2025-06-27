@@ -1,30 +1,14 @@
 import os
+import subprocess
+import sys
 
 from src.features.video_functions import VideoFunctions
 from src.menus.main_menu import MainMenu
-from tests.check_requirements import *
 
 class Handler:
     def __init__(self):
         self.video_folder = ""
         self.output_folder = os.getcwd()
-
-    def configure_requirements(self):
-        check_python_version()
-        check_os()
-        requirements = load_requirements()
-
-        missing_deps = check_dependencies(requirements)
-
-        if missing_deps == []:
-            print("\n✓ Todos los requisitos cumplidos")
-        else:
-            response = input("\n✗ Hay dependencias faltantes, desea instalarlas en este momento? (s/n):").lower()
-            if response == 's':
-                install_dependencies(missing_deps)
-            else:
-                print("\nPuedes instalarlas con:")
-                print(f"pip install {' '.join(missing_deps)}")
 
     def main_menu(self, choice):
         if choice == '1':
@@ -33,11 +17,16 @@ class Handler:
             self.set_output_folder()
         elif choice == '3':
             self.pipeline_options()
+        elif choice == '0':
+            self.terminal()
         elif choice == '4':
             print("Salir")
             sys.exit(1)
         else:
             print("\nOpcion invalida, intente de nuevo")
+
+    def terminal(self):
+        VideoFunctions.command_run()
 
     def set_video_folder(self):
         path = MainMenu.display_get_folder("\nIngresa la ruta de la carpeta con los videos", default=None)
@@ -69,13 +58,16 @@ class Handler:
                 if response == 's':
                     VideoFunctions.convert_video_to_frames(self.video_folder, self.output_folder)
             elif choice == '2':
-                # Hay que sacar los nombres de la base de datos y no de la carpeta
                 videos_converted = VideoFunctions.get_videos_analyzed()
                 videos_selected = MainMenu.display_frame_folders(videos_converted)
                 print(f"\n\tVideos seleccionados: {videos_selected}")   
                 VideoFunctions.detect_and_track(videos_selected, self.output_folder+"/frames")
             elif choice == '3':
                 print("Clusterización de imágenes")
+                subprocess.run([
+                    "python",
+                    "tests/test_torch.py"
+                ])
             elif choice == '4':
                 print("Estadísticas de imágenes")
             elif choice == '5':

@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  python-gpu:
+    image: nvidia/cuda:12.3.1-base-ubuntu22.04
+    container_name: python-gpu
+    runtime: nvidia
+    tty: true
+    stdin_open: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ./:/app
+      - type: bind
+        source: ./Videos/Pendientes
+        target: /app/Videos/Pendientes
+        consistency: cached
+      - python-packages:/usr/local/lib/python3.8/site-packages
+    command: >
+      sh -c 
+      "apt-get update
+      && apt-get install -y python3-pip libgl1-mesa-glx libglib2.0-0
+      && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+      && pip3 install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cu121
+      && pip3 install --no-cache-dir -r requirements.txt
+      && pip3 install -e .
+      && python3 /app/src/database/creationOfModels.py
+      && python3 /app/src/main.py"
+    working_dir: /app
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - PYTHONPATH=/app
+
+volumes:
+  python-packages:
+
+
+

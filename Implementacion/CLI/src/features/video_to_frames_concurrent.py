@@ -116,7 +116,7 @@ if __name__ == "__main__":
     frames_dir = os.path.join(output_folder, "frames")
     os.makedirs(frames_dir, exist_ok=True)
 
-    video_files = glob.glob(os.path.join(video_dir, "*.mp4"))
+    video_files = glob.glob(os.path.join(video_dir, "*.[mM][pP]4"))
     if not video_files:
         print("⚠️ No se encontraron videos MP4 en la carpeta")
         exit()

@@ -1,3 +1,4 @@
+from time import sleep
 from menus.main_menu import MainMenu
 from features.handler import Handler
 
@@ -7,8 +8,6 @@ def run_main_menu(handler):
         handler.main_menu(choice)
 
 if __name__ == "__main__":
+    sleep(5)
     handler = Handler()
-    if MainMenu.display_welcome():
-        handler.configure_requirements()
-
     run_main_menu(handler)

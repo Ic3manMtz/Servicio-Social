@@ -1,77 +1,28 @@
 	\section{Requisitos}
 	\subsection{Requisitos del sistema}
-	\begin{itemize}
-		\item Base de datos PostgreSQL 17.5.1
-		\item Versión mínima de Python 3.13.3
-		\item Dependencias principales:
-		\begin{itemize}
-			\item torch
-			\item torchvision
-			\item numpy
-			\item pandas
-			\item scikit-learn
-			\item matplotlib
-			\item seaborn
-		\end{itemize}
-		\item Dependencias procesamiento de imágenes/video:
-		\begin{itemize}
-			\item ultralytics
-		\end{itemize}
-		\item Dependencias de tracking:
-		\begin{itemize}
-			\item deep-sort-realtime
-		\end{itemize}
-		\item Dependencias de multimedia:
-		\begin{itemize}
-			\item ffmpeg-python
-		\end{itemize}
-		\item Dependencias de base de datos:
-		\begin{itemize}
-			\item sqlalchemy
-			\item psycopg2-binary
-		\end{itemize}
-		\item Dependencias de variables de entorno:
-		\begin{itemize}
-			\item python-dotenv
-		\end{itemize}
-		\item Dependencias de barras de progreso:
-		\begin{itemize}
-			\item tqdm
-		\end{itemize}
-	
-	\end{itemize}
+	\noindent El proyecto fue desarrollado y probado en sistema con Linux Debian GNU/Linux 12. La aplicación se encuentra dentro de un contenedor de Docker, con las siguientes versiones:
 
+	\begin{itemize}
+		\item docker version 28.2.2, build e6534b4
+		\item docker-compose version 1.29.2
+	\end{itemize}
 
 	\subsection{Instrucciones de instalaci\'on}
 	\begin{enumerate}
 		\item Instalar PostgreSQL 17.5.1 desde la \href{https://www.postgresql.org/download/}{p\'agina oficial} de PostgreSQL.
 		\item Clonar el repositorio del proyecto desde \href{https://github.com/Ic3manMtz/Servicio-Social.git}{Github} el proyecto se encuentra dentro de la carpeta \texttt{Implementaci\'on}.
-		\item Usar el entorno virtual que ya está en el proyecto:
-		\begin{lstlisting}[language=bash]
-.venv/bin/activate  # Linux/Mac
-.\.venv\Scripts\activate.ps1   # Windows
-		\end{lstlisting}
-		
-		\marginpar{right}{Al ejecutar el comando anterior en windows es posible que aparezca un error de permisos, para solucionarlo se tiene que ejecutar el siguiente comando en la terminal de PowerShell: \texttt{Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process}}
-
-		\item Instalar el proyecto del entorno virtual:
-		\begin{lstlisting}[language=python]
-pip install -e .
-		\end{lstlisting}
-		\item Configurar variable de entorno:
-		\begin{lstlisting}
-nano .env  # Editar valores de acuerdo a tu configuracion
-		\end{lstlisting}
-		\item Verificar instalaci\'on:
-		\begin{lstlisting}[language=python]
-python tests/check_requirements/
-		\end{lstlisting}
+		\item Para poder levantar el contenedor de Docker primero es necesario entrar a la carpeta del proyecto, \texttt{cd Implementacion/CLI}.
+		\item Una vez dentro de la carpeta hay que darle permisos de ejecución a los archivos, \texttt{start\_container.sh} y \texttt{stop\_container.sh}, con el comando \texttt{chmod +x start\_container.sh stop\_container.sh}.
+		\begin{description}
+			\item[start\_container.sh] Este script se encarga de crear un contenedor de Docker con la imagen del proyecto y levantarlo.
+			\item[stop\_container.sh] Este script se encarga de detener el contenedor de Docker y eliminarlo.
+		\end{description}
 	\end{enumerate}
 
 \noindent Una vez descargadas las dependencias necesarias. Si es la primera vez que se usará el programa el siguiente paso es crear las tablas de la base de datos utilizando los modelos ya creados.
 \begin{enumerate}
 	\item Se tiene que abrir el manejar de la base de datos, en el caso de PostgreSQL se llama pgAdmin, para este proyecto se recomienda usar la versión cuatro.
 	\item Una vez abierto se tiene que crear una base de datos llamada \texttt{VideoData}. El nombre de la base de datos, el usuario y la contraseña se pueden modificar en la variable de entorno \texttt{DB\_CONNECTION\_STRING}, se encuentra dentro del archivo \texttt{.env}.
-	\item Con la base de datos creada lo siguiente es ejecutar el archivo \texttt{creationOfModels.py}, se encuentra dentro del paquete \texttt{database} del proyecto.
+	\item El siguiente es ejecutar el archivo \texttt{creationOfModels.py}, se encuentra dentro del paquete \texttt{database} del proyecto.
 	\item Al terminar la ejecución ya deben estar las mismas tablas que modelos dentro de la base de datos.
 \end{enumerate}
